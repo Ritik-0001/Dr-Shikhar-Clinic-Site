@@ -1,0 +1,509 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------------------------------
+   Design tokens
+   Brand colours were sampled from the client's logo:
+     blue #16478c  → primary-700      red #c3262f  → accent-600
+   ------------------------------------------------------------------------------------------ */
+@theme static {
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-dm-serif), ui-serif, Georgia, "Times New Roman", serif;
+  /* Gujarati uses installed system fonts (no web-font download). Name/logo artwork is vector, so no text needs it. */
+  --font-gujarati: "Noto Sans Gujarati", "Nirmala UI", "Gujarati Sangam MN", "Shruti", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #f3f7fd;
+  --color-primary-100: #e3ecf9;
+  --color-primary-200: #c7daf2;
+  --color-primary-300: #9bbce7;
+  --color-primary-400: #6496d6;
+  --color-primary-500: #3a74c0;
+  --color-primary-600: #1f5aa7;
+  --color-primary-700: #16478c;
+  --color-primary-800: #133b73;
+  --color-primary-900: #11305c;
+  --color-primary-950: #0a1f3f;
+
+  --color-accent-50: #fff3f3;
+  --color-accent-100: #ffe3e4;
+  --color-accent-200: #ffc9cc;
+  --color-accent-300: #fda2a7;
+  --color-accent-400: #f56d75;
+  --color-accent-500: #e1444e;
+  --color-accent-600: #c3262f;
+  --color-accent-700: #a31e27;
+  --color-accent-800: #851c24;
+  --color-accent-900: #6c1d23;
+  --color-accent-950: #3b0d11;
+
+  --color-ink: #0d1b2f;
+  --color-ink-soft: #33445c;
+  --color-muted: #52627a;
+  --color-line: #e2e8f1;
+  --color-surface: #f6f9fd;
+  --color-surface-2: #edf3fb;
+  --color-whatsapp: #1fa855; /* icon-only use (3.1:1 on white glyph) */
+  --color-whatsapp-deep: #0f7f43; /* text buttons (5.1:1 with white text) */
+
+  --shadow-soft: 0 1px 2px rgb(13 27 47 / 0.04), 0 6px 20px -8px rgb(17 48 92 / 0.14);
+  --shadow-card: 0 1px 2px rgb(13 27 47 / 0.04), 0 14px 36px -16px rgb(17 48 92 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(13 27 47 / 0.05), 0 28px 56px -20px rgb(17 48 92 / 0.34);
+  --shadow-cta: 0 12px 28px -10px rgb(195 38 47 / 0.6);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-rise: rise 0.9s var(--ease-soft) both;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------------------------ */
+@layer base {
+  :root {
+    color-scheme: light;
+    interpolate-size: allow-keywords;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-primary-700);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-primary-500);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* The display face only ships a regular weight — never let the browser fake a bold. */
+  .font-display {
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: -0.012em;
+  }
+
+  /* Gujarati text: use the dedicated face and slightly looser leading. */
+  :lang(gu),
+  .font-gujarati {
+    font-family: var(--font-gujarati);
+    line-height: 1.5;
+  }
+
+  summary {
+    cursor: pointer;
+  }
+}
+
+/* ------------------------------------------------------------------------------------------
+   Reusable patterns
+   ------------------------------------------------------------------------------------------ */
+@utility container-page {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (min-width: 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility section-y {
+  padding-block: 4.5rem;
+  @media (min-width: 48rem) {
+    padding-block: 6.5rem;
+  }
+}
+
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-600);
+  &::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: currentColor;
+  }
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--color-primary-700) 22%, transparent) 1.1px,
+    transparent 1.4px
+  );
+  background-size: 22px 22px;
+}
+
+@utility bg-hero-glow {
+  background-image:
+    radial-gradient(60% 55% at 88% 8%, color-mix(in oklab, var(--color-primary-300) 38%, transparent), transparent 70%),
+    radial-gradient(40% 38% at 0% 58%, color-mix(in oklab, var(--color-accent-300) 22%, transparent), transparent 72%);
+}
+
+/* Entrance on page load (hero) — staggered with --i */
+@utility enter {
+  animation: var(--animate-rise);
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Scroll-linked reveal. Pure CSS: content is visible by default and only animates in
+   browsers that support scroll-driven animations (and when motion is allowed). */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 5%) entry calc(38% + var(--i, 0) * 5%);
+    }
+    @keyframes reveal-in {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .enter {
+    animation: none !important;
+  }
+}
+
+/* FAQ accordion (native <details>, zero JS) */
+.faq details > summary {
+  list-style: none;
+}
+.faq details > summary::-webkit-details-marker {
+  display: none;
+}
+.faq details[open] > summary .faq-icon {
+  transform: rotate(45deg);
+  background: var(--color-accent-600);
+  color: #fff;
+}
+@supports selector(::details-content) {
+  .faq details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.35s var(--ease-soft),
+      content-visibility 0.35s allow-discrete;
+  }
+  .faq details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* Long-form text (blog posts, legal-style copy) */
+.prose-clinic {
+  color: var(--color-ink-soft);
+  font-size: 1.125rem;
+  line-height: 1.8;
+  max-width: 44rem;
+}
+.prose-clinic > :first-child {
+  margin-top: 0;
+}
+.prose-clinic p {
+  margin: 1.15em 0;
+}
+.prose-clinic h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.65rem, 1.2rem + 1.6vw, 2.15rem);
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--color-primary-800);
+  margin: 2.4em 0 0.6em;
+}
+.prose-clinic h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--color-ink);
+  margin: 2em 0 0.5em;
+}
+.prose-clinic strong {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+.prose-clinic a {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.prose-clinic a:hover {
+  color: var(--color-accent-600);
+}
+.prose-clinic ul,
+.prose-clinic ol {
+  margin: 1.2em 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.6em;
+}
+.prose-clinic ul > li {
+  position: relative;
+  padding-left: 1.9rem;
+}
+.prose-clinic ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.62em;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  background: var(--color-accent-600);
+  box-shadow: 0 0 0 4px var(--color-accent-100);
+}
+.prose-clinic ol {
+  counter-reset: step;
+}
+.prose-clinic ol > li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2.6rem;
+}
+.prose-clinic ol > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-primary-700);
+}
+.prose-clinic blockquote {
+  margin: 2em 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--color-accent-600);
+  background: var(--color-surface);
+  border-radius: 0 1rem 1rem 0;
+  color: var(--color-primary-900);
+  font-size: 1.15rem;
+}
+
+/* Native <dialog> surfaces: mobile menu drawer + contact chooser sheet */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+dialog.drawer,
+dialog.sheet {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  max-width: none;
+  max-height: none;
+  color: inherit;
+  background: transparent;
+}
+dialog.drawer::backdrop,
+dialog.sheet::backdrop {
+  background: rgb(10 31 63 / 0.5);
+  backdrop-filter: blur(3px);
+}
+dialog.drawer {
+  inset: 0 0 0 auto;
+  width: min(26rem, 100%);
+  height: 100dvh;
+  background: #fff;
+  overflow-y: auto;
+}
+dialog.drawer[open] {
+  animation: drawer-in 0.32s var(--ease-soft);
+}
+dialog.sheet {
+  inset: auto 0 0 0;
+  width: 100%;
+}
+dialog.sheet[open] {
+  animation: sheet-in 0.28s var(--ease-soft);
+}
+@media (min-width: 64rem) {
+  dialog.sheet {
+    inset: auto 1.5rem 6.25rem auto;
+    width: 23rem;
+  }
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.drawer[open],
+  dialog.sheet[open] {
+    animation: none;
+  }
+}
+
+/* Decorative emblem watermark as a CSS mask: monochrome (currentColor), no <img>, never an LCP candidate */
+.emblem-mask {
+  aspect-ratio: 555 / 705;
+  background-color: currentColor;
+  -webkit-mask: url("/brand/emblem.svg") center / contain no-repeat;
+  mask: url("/brand/emblem.svg") center / contain no-repeat;
+}
+
+/* Duotone dental icons: accent parts follow --icon-accent so they can be re-themed per context */
+.ic-fill {
+  fill: var(--icon-accent, var(--color-accent-600));
+  stroke: none;
+}
+.ic-stroke {
+  fill: none;
+  stroke: var(--icon-accent, var(--color-accent-600));
+}
+.ic-white {
+  fill: none;
+  stroke: #fff;
+}
+
+/* Form controls */
+@utility field {
+  display: block;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.85rem 1.1rem;
+  font: inherit;
+  color: var(--color-ink);
+  background: #fff;
+  border: 1.5px solid var(--color-line);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-soft);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  &::placeholder {
+    color: color-mix(in oklab, var(--color-muted) 65%, transparent);
+  }
+  &:hover {
+    border-color: var(--color-primary-300);
+  }
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 4px var(--color-primary-100);
+  }
+  &[aria-invalid="true"] {
+    border-color: var(--color-accent-500);
+    box-shadow: 0 0 0 4px var(--color-accent-100);
+  }
+}
+select.field {
+  appearance: none;
+  padding-right: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2352627a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+textarea.field {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+/* Native date/time inputs follow the page's rounded style */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* Visually hidden but available to screen readers */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
