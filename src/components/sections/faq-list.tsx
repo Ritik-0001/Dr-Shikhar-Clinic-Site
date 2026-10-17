@@ -11,14 +11,14 @@ export function FaqList({ faqs, className, name }: { faqs: Faq[]; className?: st
   return (
     <div className={cn("faq grid gap-3", className)}>
       {faqs.map((f) => (
-        <details key={f.q} name={name} className="group rounded-2xl border border-line bg-white shadow-soft open:border-primary-300 open:shadow-card">
-          <summary className="flex min-h-16 items-center justify-between gap-4 rounded-2xl px-5 py-4 text-left text-[1.05rem] font-semibold leading-snug text-primary-900 sm:px-6">
+        <details key={f.q} name={name} className="group rounded-3xl border border-line bg-white transition-shadow open:shadow-card">
+          <summary className="flex min-h-[4.5rem] items-center justify-between gap-4 rounded-3xl px-5 py-4 text-left text-[1.05rem] font-bold leading-snug text-primary-900 sm:px-7">
             {f.q}
-            <span className="faq-icon grid size-9 shrink-0 place-items-center rounded-full bg-primary-50 text-primary-700 transition-[transform,background-color,color] duration-300">
+            <span className="faq-icon grid size-9 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-700 transition-[transform,background-color,color] duration-300">
               <Plus className="size-5" aria-hidden="true" />
             </span>
           </summary>
-          <div className="px-5 pb-6 pr-14 text-[1.02rem] leading-relaxed text-muted sm:px-6 sm:pr-16 [&_a]:font-semibold [&_a]:text-primary-700 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-accent-600">
+          <div className="px-5 pb-6 pr-14 text-[1.02rem] leading-relaxed text-muted sm:px-7 sm:pr-16 [&_a]:font-semibold [&_a]:text-primary-700 [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-accent-600">
             <InlineText text={f.a} />
           </div>
         </details>

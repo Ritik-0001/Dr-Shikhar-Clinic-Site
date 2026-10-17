@@ -1,12 +1,13 @@
+import { ArrowRight } from "lucide-react";
 import { BranchCard } from "@/components/branches/branch-card";
 import { ButtonLink } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { branches } from "@/data/branches";
-import { ArrowRight } from "lucide-react";
 
-export function BranchesSection() {
+/** Two clinic cards (no map; the full locator with maps is on /branches). */
+export function ClinicsSection() {
   return (
-    <section className="section-y" aria-labelledby="branches-heading">
+    <section className="defer-render section-y" aria-labelledby="branches-heading">
       <div className="container-page">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading
@@ -18,9 +19,9 @@ export function BranchesSection() {
             Branch locator <ArrowRight className="size-4" aria-hidden="true" />
           </ButtonLink>
         </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+        <div className="mt-10 grid gap-5 sm:mt-12 sm:gap-6 lg:grid-cols-2">
           {branches.map((b, i) => (
-            <BranchCard key={b.slug} branch={b} index={i} />
+            <BranchCard key={b.slug} branch={b} index={i} compact />
           ))}
         </div>
       </div>

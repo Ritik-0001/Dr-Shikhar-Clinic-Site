@@ -7,7 +7,7 @@ import type { DentalIconName } from "@/data/treatments";
  * same icon can be re-themed on dark backgrounds.
  */
 
-/** Molar silhouette, centred in a 48×48 box (spans x 10.5–37.5, y 7.6–40). */
+/** Molar silhouette, centred in a 48×48 box (spans x 10.5 to 37.5, y 7.6 to 40). */
 export const TOOTH_PATH =
   "M24 10.2C21.6 8.2 16.2 7.3 13 10.6c-2.8 3-2.2 7.8-.8 12.4 1.4 4.6 2 14.2 5.2 16.2 2.8 1.6 4-5.4 5-9 .7-2.4 2.5-2.4 3.2 0 1 3.6 2.2 10.6 5 9 3.2-2 3.8-11.6 5.2-16.2 1.4-4.6 2-9.4-.8-12.4-3.2-3.3-8.6-2.4-11-.4Z";
 const TOOTH = TOOTH_PATH;

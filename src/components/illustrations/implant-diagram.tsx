@@ -1,9 +1,9 @@
 /**
  * Cross-section of a dental implant: crown, abutment, titanium post, gum and jawbone.
- * A simple explainer graphic (not to scale) drawn as inline SVG — no image weight.
+ * A simple explainer graphic (not to scale) drawn as inline SVG, no image weight.
  */
 export function ImplantDiagram({ className }: { className?: string }) {
-  const label = { fontFamily: "var(--font-figtree), system-ui, sans-serif", fontSize: 15, fontWeight: 700, fill: "#133b73" } as const;
+  const label = { fontFamily: "var(--font-manrope), system-ui, sans-serif", fontSize: 15, fontWeight: 700, fill: "#133b73" } as const;
   return (
     <svg viewBox="0 0 420 470" className={className} role="img" aria-label="Diagram of a dental implant showing the crown, abutment, titanium post, gum and jawbone">
       <defs>

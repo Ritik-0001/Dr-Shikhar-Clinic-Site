@@ -79,22 +79,22 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      <header className="relative isolate overflow-hidden bg-linear-to-b from-primary-50 via-white to-white">
-        <div className="bg-hero-glow absolute inset-0 -z-10 opacity-80" aria-hidden="true" />
+      <header className="relative isolate overflow-hidden">
+        <div className="bg-hero-glow absolute inset-0 -z-10" aria-hidden="true" />
         <div className="container-page pb-10 pt-8 sm:pb-14 sm:pt-12">
           <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: post.category }]} />
           <p>
-            <span className="inline-block rounded-full bg-accent-50 px-3.5 py-1.5 text-sm font-semibold text-accent-700">{post.category}</span>
+            <span className="inline-block rounded-full bg-accent-100 px-3.5 py-1.5 text-sm font-bold text-accent-800">{post.category}</span>
           </p>
-          <h1 className="font-display mt-5 max-w-4xl text-[clamp(2.2rem,1.4rem+3.4vw,4rem)] leading-[1.06] text-primary-800">{post.title}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted sm:text-xl">{post.excerpt}</p>
+          <h1 className="font-display mt-5 max-w-4xl text-[clamp(2.1rem,1.4rem+3.2vw,3.7rem)] leading-[1.1] tracking-[-0.035em] text-primary-900">{post.title}</h1>
+          <p className="mt-5 max-w-3xl text-[1.05rem] leading-relaxed text-muted sm:text-xl">{post.excerpt}</p>
           <p className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold text-ink-soft">
             <span>By {site.name}</span>
-            <span aria-hidden="true" className="text-line">
+            <span aria-hidden="true" className="hidden text-line sm:inline">
               |
             </span>
             <time dateTime={post.date}>{formatPostDate(post.date)}</time>
-            <span aria-hidden="true" className="text-line">
+            <span aria-hidden="true" className="hidden text-line sm:inline">
               |
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -106,28 +106,28 @@ export default async function BlogPostPage({ params }: Props) {
 
       <div className="container-page grid gap-12 pb-16 sm:pb-24 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-16">
         <article>
-          <PostCover post={post} className="mb-12 aspect-[16/7] rounded-[2rem]" />
+          <PostCover post={post} className="mb-10 aspect-[16/8] rounded-[1.75rem] sm:mb-12 sm:aspect-[16/7] sm:rounded-[2rem]" />
           <div className="prose-clinic">
             {post.blocks.map((b, i) => (
               <RenderBlock key={i} block={b} />
             ))}
           </div>
 
-          <p className="mt-12 flex max-w-2xl items-start gap-3 rounded-2xl bg-surface p-5 text-[0.95rem] leading-relaxed text-muted ring-1 ring-line">
+          <p className="mt-12 flex max-w-2xl items-start gap-3 rounded-2xl border border-line bg-surface p-5 text-[0.95rem] leading-relaxed text-muted">
             <Info className="mt-0.5 size-5 shrink-0 text-primary-600" aria-hidden="true" />
             <span>
-              This article is for general education and isn&apos;t a substitute for a dental examination. Every mouth is different — <Link href="/appointment" className="font-semibold text-primary-700 underline underline-offset-2 hover:text-accent-600">book a consultation</Link> for advice about your own teeth.
+              This article is for general education and isn&apos;t a substitute for a dental examination. Every mouth is different, so <Link href="/appointment" className="font-semibold text-primary-700 underline underline-offset-2 hover:text-accent-600">book a consultation</Link> for advice about your own teeth.
             </span>
           </p>
 
           {treatment && (
-            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-primary-900 p-7 text-white">
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-5 rounded-[1.75rem] bg-primary-950 p-6 text-white sm:p-8">
               <div>
                 <p className="eyebrow text-accent-300">Related treatment</p>
                 <p className="font-display mt-2 text-3xl">{treatment.title}</p>
                 <p className="mt-1 max-w-md text-primary-200">{treatment.summary}</p>
               </div>
-              <Link href={treatmentHref(treatment)} className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 font-semibold text-primary-800 transition-colors hover:bg-primary-50">
+              <Link href={treatmentHref(treatment)} className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 font-bold text-primary-900 transition-colors hover:bg-primary-50">
                 About {treatment.title.toLowerCase()} <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
             </div>
@@ -136,13 +136,13 @@ export default async function BlogPostPage({ params }: Props) {
 
         <aside className="grid content-start gap-6 lg:sticky lg:top-28 lg:self-start" aria-label="Sidebar">
           <BookingCard treatment={treatment?.slug} title="Questions about your teeth?" text="Book a consultation and get honest, personal advice from our dental team." />
-          <nav aria-label="More articles" className="rounded-3xl border border-line bg-white p-6 shadow-soft">
-            <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-muted">More to read</h2>
+          <nav aria-label="More articles" className="rounded-[1.75rem] border border-line bg-white p-6">
+            <h2 className="text-xs font-extrabold uppercase tracking-[0.16em] text-muted">More to read</h2>
             <ul className="mt-4 grid gap-4">
               {more.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/blog/${p.slug}`} className="group block">
-                    <span className="block font-display text-xl leading-snug text-primary-800 group-hover:text-accent-600">{p.title}</span>
+                    <span className="block font-display text-xl leading-snug text-primary-900 group-hover:text-accent-700">{p.title}</span>
                     <span className="mt-1 block text-sm text-muted">{p.readMinutes} min read</span>
                   </Link>
                 </li>

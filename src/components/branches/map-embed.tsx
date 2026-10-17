@@ -69,7 +69,7 @@ export function MapEmbed({ branch, autoLoad = false, className }: Props) {
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary-700 px-3.5 py-2 text-xs font-bold text-white">
               <MousePointerClick className="size-3.5" aria-hidden="true" /> Show map
             </span>
-            <span className="sr-only">— loads the interactive Google map for {branch.listingName}</span>
+            <span className="sr-only">Loads the interactive Google map for {branch.listingName}</span>
           </span>
         </button>
       )}

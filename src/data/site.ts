@@ -15,10 +15,10 @@ export const site = {
   tagline: "Healthy Teeth. Happy Life. Confident You.",
   taglineParts: ["Healthy Teeth.", "Happy Life.", "Confident You."] as const,
   description:
-    "Shree Hari Dental Care is a modern multispeciality dental clinic in Nikol, Ahmedabad and Dhrangadhra, Gujarat — ethical, painless, evidence-based dentistry with advanced technology and strict sterilization.",
+    "Shree Hari Dental Care is a modern multispeciality dental clinic in Nikol, Ahmedabad and Dhrangadhra, Gujarat: ethical, painless, evidence-based dentistry with advanced technology and strict sterilization.",
   url: rawUrl.replace(/\/$/, ""),
   locale: "en_IN",
-  founder: { name: "Dr. Shikhar Selara", credential: "BDS – Dental Surgeon", role: "Founder, Shree Hari Dental Care" },
+  founder: { name: "Dr. Shikhar Selara", credential: "BDS, Dental Surgeon", role: "Founder, Shree Hari Dental Care" },
 
   instagram: {
     handle: "shree_hari_dental_care",
@@ -28,12 +28,12 @@ export const site = {
   /** TODO(client): no public e-mail address was supplied. Leave `null` to hide e-mail everywhere. */
   email: null as string | null,
 
-  /** Timings from the brief: Mon–Sat, two sessions; Sunday closed. */
+  /** Timings from the brief: Mon to Sat, two sessions; Sunday closed. */
   hours: {
-    label: "Monday – Saturday",
+    label: "Monday to Saturday",
     sessions: [
-      { name: "Morning", from: "09:00", to: "13:00", display: "9:00 AM – 1:00 PM" },
-      { name: "Evening", from: "16:00", to: "20:00", display: "4:00 PM – 8:00 PM" },
+      { name: "Morning", from: "09:00", to: "13:00", display: "9:00 AM to 1:00 PM" },
+      { name: "Evening", from: "16:00", to: "20:00", display: "4:00 PM to 8:00 PM" },
     ],
     closedLabel: "Sunday",
     /** 0 = Sunday … 6 = Saturday */

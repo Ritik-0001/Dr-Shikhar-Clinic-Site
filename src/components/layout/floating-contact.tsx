@@ -41,25 +41,25 @@ export function FloatingContact() {
       </button>
 
       {/* Mobile sticky action bar */}
-      <div role="region" aria-label="Quick contact actions" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_-12px_rgb(17_48_92/0.25)] backdrop-blur lg:hidden">
+      <div role="region" aria-label="Quick contact actions" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_-12px_rgb(17_48_92/0.25)] lg:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-[1fr_1fr_1.5fr] gap-2 p-2.5">
           <button
             type="button"
             onClick={() => open("call")}
-            className="flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-primary-700/20 bg-white text-sm font-semibold text-primary-800"
+            className="flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-primary-900/25 bg-white text-sm font-bold text-primary-900"
           >
             <Phone className="size-[1.1rem]" aria-hidden="true" /> Call
           </button>
           <button
             type="button"
             onClick={() => open("whatsapp")}
-            className="flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-whatsapp-deep text-sm font-semibold text-white"
+            className="flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-whatsapp-deep text-sm font-bold text-white"
           >
             <WhatsAppIcon className="size-[1.1rem]" /> Chat
           </button>
           <Link
             href="/appointment"
-            className="flex h-12 items-center justify-center gap-2 rounded-full bg-accent-600 text-sm font-semibold text-white shadow-cta"
+            className="flex h-12 items-center justify-center gap-2 rounded-full bg-accent-600 text-sm font-bold text-white shadow-cta"
           >
             <CalendarCheck className="size-[1.1rem]" aria-hidden="true" /> Book Now
           </Link>
@@ -74,7 +74,7 @@ export function FloatingContact() {
           if (e.target === e.currentTarget) e.currentTarget.close();
         }}
       >
-        <div className="rounded-t-[2rem] bg-white p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-lift lg:rounded-[2rem]">
+        <div className="rounded-t-[2rem] bg-canvas p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-lift lg:rounded-[2rem]">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-bold text-primary-900">{copy[action].title}</h2>
@@ -84,7 +84,7 @@ export function FloatingContact() {
               type="button"
               aria-label="Close"
               onClick={() => dialogRef.current?.close()}
-              className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-full bg-primary-50 text-primary-800 hover:bg-primary-100"
+              className="grid size-10 shrink-0 cursor-pointer place-items-center rounded-full bg-surface text-primary-900 hover:bg-surface-2"
             >
               <X className="size-5" aria-hidden="true" />
             </button>
@@ -102,7 +102,7 @@ export function FloatingContact() {
                     href={href}
                     {...(action === "whatsapp" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     onClick={() => dialogRef.current?.close()}
-                    className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-primary-300 hover:bg-primary-50"
+                    className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-primary-900/30 hover:bg-white"
                   >
                     <span
                       className={`grid size-12 shrink-0 place-items-center rounded-full text-white ${action === "call" ? "bg-primary-700" : "bg-whatsapp"}`}

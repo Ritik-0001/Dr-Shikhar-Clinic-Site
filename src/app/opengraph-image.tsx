@@ -1,18 +1,21 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import { TOOTH_PATH } from "@/components/icons/dental-icons";
 import { site } from "@/data/site";
 
-export const alt = `${site.name} — ${site.tagline}`;
+export const alt = `${site.name}: ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** Default social-share card (WhatsApp, Facebook, LinkedIn, X…): logo, tagline and the clinic's areas. */
+const dataUri = (mime: string, file: Buffer) => `data:${mime};base64,${file.toString("base64")}`;
+
+/** Default social-share card (WhatsApp, Facebook, LinkedIn, X...): logo, tagline and the clinic's areas. */
 export default async function OpengraphImage() {
-  const logo = await readFile(path.join(process.cwd(), "public/brand/logo-horizontal.png"));
-  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
-  const line = { fontSize: 96, lineHeight: 1.02, fontWeight: 700, letterSpacing: -2 } as const;
+  const [logo, emblem] = await Promise.all([
+    readFile(path.join(process.cwd(), "public/brand/logo-horizontal.png")),
+    readFile(path.join(process.cwd(), "public/brand/emblem-reversed.svg")),
+  ]);
+  const line = { fontSize: 92, lineHeight: 1.03, fontWeight: 700, letterSpacing: -2 } as const;
 
   return new ImageResponse(
     (
@@ -23,33 +26,44 @@ export default async function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "64px 72px",
-          background: "linear-gradient(135deg, #ffffff 0%, #eaf1fb 58%, #d7e5f8 100%)",
+          padding: "60px 72px",
+          background:
+            "radial-gradient(circle at 92% 0%, rgba(240,207,160,0.6), rgba(250,245,236,0) 42%), radial-gradient(circle at 0% 100%, rgba(246,205,188,0.85), rgba(250,245,236,0) 40%), #faf5ec",
           position: "relative",
         }}
       >
-        <div style={{ position: "absolute", right: 64, top: 64, width: 420, height: 500, display: "flex", borderRadius: "210px 210px 44px 44px", background: "linear-gradient(180deg, #c7daf2 0%, #f3f7fd 100%)" }} />
-        <svg width="330" height="330" viewBox="6 4 36 38" style={{ position: "absolute", right: 110, top: 150 }}>
-          <path d={TOOTH_PATH} fill="#ffffff" stroke="#7fa6dc" strokeWidth="0.55" />
-        </svg>
-        <div style={{ position: "absolute", right: 250, top: 40, display: "flex", gap: 10, alignItems: "flex-end" }}>
-          <div style={{ width: 54, height: 54, borderRadius: 27, background: "#c3262f" }} />
-          <div style={{ width: 34, height: 34, borderRadius: 17, background: "#c3262f", marginBottom: 4 }} />
-          <div style={{ width: 54, height: 54, borderRadius: 27, background: "#16478c" }} />
+        {/* brand arch: blush offset behind, navy arch with the emblem in front */}
+        <div style={{ position: "absolute", right: 66, top: 78, width: 380, height: 430, display: "flex", borderRadius: "190px 190px 36px 36px", background: "#f8c9bd" }} />
+        <div
+          style={{
+            position: "absolute",
+            right: 90,
+            top: 54,
+            width: 380,
+            height: 430,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "190px 190px 36px 36px",
+            background: "linear-gradient(160deg, #1b3f78 0%, #0a1f3f 55%, #0a1f3f 100%)",
+          }}
+        >
+          {/* Satori (ImageResponse) renders plain <img>; next/image does not apply here. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={dataUri("image/svg+xml", emblem)} width={176} height={224} alt="" style={{ marginBottom: 24 }} />
         </div>
 
-        {/* Satori (ImageResponse) renders plain <img>; next/image does not apply here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={520} height={135} alt="" />
+        <img src={dataUri("image/png", logo)} width={500} height={130} alt="" />
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ ...line, color: "#16478c" }}>Healthy Teeth.</div>
+          <div style={{ ...line, color: "#0e1d33" }}>Healthy Teeth.</div>
           <div style={{ ...line, color: "#c3262f" }}>Happy Life.</div>
-          <div style={{ ...line, color: "#16478c" }}>Confident You.</div>
+          <div style={{ ...line, color: "#0e1d33" }}>Confident You.</div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 30, fontWeight: 700, color: "#33445c" }}>
-          <div style={{ display: "flex", padding: "14px 28px", borderRadius: 999, background: "#c3262f", color: "#ffffff" }}>Book an appointment</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, fontSize: 30, fontWeight: 700, color: "#2c3d57" }}>
+          <div style={{ display: "flex", padding: "14px 30px", borderRadius: 999, background: "#c3262f", color: "#ffffff" }}>Book an appointment</div>
           <div style={{ display: "flex" }}>Nikol, Ahmedabad · Dhrangadhra</div>
         </div>
       </div>

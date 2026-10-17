@@ -5,10 +5,10 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { programs } from "@/data/content";
 import { cn } from "@/lib/cn";
 
-/** The five community programs. `intro` toggles the section heading (used on the home page). */
+/** The five community programs. `intro` toggles the section heading. */
 export function ProgramsGrid({ intro = true, className }: { intro?: boolean; className?: string }) {
   return (
-    <section className={cn("section-y bg-surface", className)} aria-labelledby="programs-heading">
+    <section className={cn("section-y", intro && "bg-surface", className)} aria-labelledby="programs-heading">
       <div className="container-page">
         {!intro && (
           <h2 id="programs-heading" className="sr-only">
@@ -27,22 +27,24 @@ export function ProgramsGrid({ intro = true, className }: { intro?: boolean; cla
             </ButtonLink>
           </div>
         )}
-        <ul className={cn("grid gap-5 sm:grid-cols-2 lg:grid-cols-6", intro && "mt-12")}>
+        <ul className={cn("grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6", intro && "mt-12")}>
           {programs.map(({ title, text, icon: Icon }, i) => (
             <li
               key={title}
               style={{ "--i": i % 3 } as CSSProperties}
               className={cn(
-                "reveal relative overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-soft",
+                "reveal relative flex items-start gap-4 overflow-hidden rounded-[1.75rem] border border-line bg-white p-5 sm:block sm:p-7",
                 i < 3 ? "lg:col-span-2" : "lg:col-span-3",
                 i === 4 && "sm:col-span-2",
               )}
             >
-              <span className="grid size-14 place-items-center rounded-2xl bg-accent-50 text-accent-600">
-                <Icon className="size-7" aria-hidden="true" />
+              <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-accent-50 text-accent-600 sm:size-14">
+                <Icon className="size-6 sm:size-7" aria-hidden="true" />
               </span>
-              <h3 className="mt-6 text-xl font-bold leading-snug text-primary-900">{title}</h3>
-              <p className="mt-2.5 text-[0.98rem] leading-relaxed text-muted">{text}</p>
+              <div>
+                <h3 className="font-display text-[1.35rem] leading-tight text-primary-900 sm:mt-6 sm:text-[1.6rem]">{title}</h3>
+                <p className="mt-1.5 text-[0.98rem] leading-relaxed text-muted sm:mt-2.5">{text}</p>
+              </div>
             </li>
           ))}
         </ul>

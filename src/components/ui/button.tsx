@@ -6,22 +6,22 @@ export type ButtonVariant = "primary" | "secondary" | "outline" | "outline-light
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold leading-none transition-[background-color,box-shadow,border-color,color,translate] duration-200 ease-out active:translate-y-px disabled:pointer-events-none disabled:opacity-60";
+  "inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-bold leading-none transition-[background-color,box-shadow,border-color,color,translate] duration-200 ease-out active:translate-y-px disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-accent-600 text-white shadow-cta hover:bg-accent-700",
-  secondary: "bg-primary-700 text-white shadow-soft hover:bg-primary-800",
-  outline: "border-2 border-primary-700/25 bg-white/70 text-primary-800 hover:border-primary-700 hover:bg-primary-50",
+  secondary: "bg-primary-900 text-white hover:bg-primary-800",
+  outline: "border-[1.5px] border-primary-900/25 text-primary-900 hover:border-primary-900 hover:bg-white/70",
   "outline-light": "border-2 border-white/30 text-white hover:border-white/70 hover:bg-white/10",
-  ghost: "text-primary-800 hover:bg-primary-50",
-  light: "bg-white text-primary-800 shadow-soft hover:bg-primary-50",
-  whatsapp: "bg-whatsapp-deep text-white shadow-soft hover:bg-[#0c6a38]",
+  ghost: "text-primary-900 hover:bg-surface",
+  light: "bg-white text-primary-900 hover:bg-primary-50",
+  whatsapp: "bg-whatsapp-deep text-white hover:bg-[#0c6a38]",
 };
 
 const sizes: Record<ButtonSize, string> = {
   sm: "h-10 px-4 text-sm",
-  md: "h-12 px-6 text-[0.95rem]",
-  lg: "h-14 px-8 text-base",
+  md: "h-12 px-5 text-[0.95rem] sm:px-6",
+  lg: "h-14 px-6 text-base sm:px-8",
 };
 
 type StyleProps = { variant?: ButtonVariant; size?: ButtonSize; className?: string };

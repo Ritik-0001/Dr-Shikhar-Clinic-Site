@@ -1,37 +1,28 @@
-import type { CSSProperties } from "react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { journey } from "@/data/content";
 import { cn } from "@/lib/cn";
 
-/** The nine-step patient journey, from booking to long-term maintenance. */
+/** The nine-step patient journey, from booking to long-term maintenance. Typographic: numbers and hairlines, no cards. */
 export function PatientJourney({ className, tone = "tint" }: { className?: string; tone?: "tint" | "plain" }) {
   return (
     <section className={cn("section-y", tone === "tint" && "bg-surface", className)} aria-labelledby="journey-heading">
       <div className="container-page">
         <SectionHeading
-          align="center"
           eyebrow="Your patient journey"
-          title={<span id="journey-heading">From first call to lasting smile — in nine clear steps</span>}
-          description="No surprises, no pressure. Here's what to expect, every step of the way."
+          title={<span id="journey-heading">From first call to lasting smile, in nine clear steps</span>}
+          description="No surprises, no pressure. Here is what to expect, every step of the way."
         />
-        <ol className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {journey.map(({ title, text, icon: Icon }, i) => (
-            <li
-              key={title}
-              style={{ "--i": i % 3 } as CSSProperties}
-              className="reveal relative overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-soft"
-            >
-              <span aria-hidden="true" className="font-display absolute right-5 top-3 text-[5rem] leading-none text-primary-100">
-                {i + 1}
+        <ol className="mt-12 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+          {journey.map(({ title, text }, i) => (
+            <li key={title} className="border-t-2 border-primary-900/15 pt-5">
+              <span className="font-display text-[2.6rem] leading-none text-accent-600" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="relative grid size-14 place-items-center rounded-2xl bg-accent-50 text-accent-600">
-                <Icon className="size-7" aria-hidden="true" />
-              </span>
-              <h3 className="relative mt-6 text-lg font-bold text-primary-900">
+              <h3 className="mt-3 text-lg font-bold text-primary-900">
                 <span className="sr-only">Step {i + 1}: </span>
                 {title}
               </h3>
-              <p className="relative mt-2 text-[0.95rem] leading-relaxed text-muted">{text}</p>
+              <p className="mt-1.5 text-[0.98rem] leading-relaxed text-muted">{text}</p>
             </li>
           ))}
         </ol>

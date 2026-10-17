@@ -33,7 +33,7 @@ export function Logo({ variant = "horizontal", reversed = false, height = 48, ea
       alt={alt}
       width={w}
       height={h}
-      unoptimized // already vector — nothing for the image optimiser to do
+      unoptimized // already vector, nothing for the image optimiser to do
       loading={eager ? "eager" : "lazy"}
       style={{ height, width: "auto" }}
       className={cn("block max-w-none select-none", className)}

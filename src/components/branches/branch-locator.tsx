@@ -12,6 +12,7 @@ import { telUrl, whatsappUrl } from "@/lib/contact";
 import { GoogleRating } from "./branch-card";
 import { MapEmbed } from "./map-embed";
 import { OpenNow } from "./open-now";
+import { HoursLines } from "@/components/ui/hours";
 
 type Coords = { lat: number; lng: number };
 type Geo = { status: "idle" | "loading" | "denied" | "unsupported" | "done"; km?: Record<string, number> };
@@ -72,14 +73,14 @@ export function BranchLocator() {
           type="button"
           onClick={locate}
           disabled={geo.status === "loading"}
-          className="flex min-h-14 cursor-pointer items-center justify-center gap-2.5 rounded-2xl border-2 border-dashed border-primary-300 bg-primary-50/60 px-4 text-[0.95rem] font-bold text-primary-800 transition-colors hover:border-primary-600 hover:bg-primary-50 disabled:opacity-70"
+          className="flex min-h-14 cursor-pointer items-center justify-center gap-2.5 rounded-2xl border-2 border-dashed border-primary-900/30 bg-white/60 px-4 text-[0.95rem] font-bold text-primary-900 transition-colors hover:border-primary-900 hover:bg-white disabled:opacity-70"
         >
           {geo.status === "loading" ? <LoaderCircle className="size-5 animate-spin" aria-hidden="true" /> : <LocateFixed className="size-5 text-accent-600" aria-hidden="true" />}
           {geo.status === "loading" ? "Finding your location…" : "Find the clinic nearest to me"}
         </button>
         <p className="-mt-1 min-h-5 text-sm text-muted" role="status" aria-live="polite">
-          {geo.status === "denied" && "We couldn't access your location — choose a clinic below instead."}
-          {geo.status === "unsupported" && "Location isn't available on this device — choose a clinic below."}
+          {geo.status === "denied" && "We couldn't access your location. Choose a clinic below instead."}
+          {geo.status === "unsupported" && "Location isn't available on this device. Choose a clinic below."}
           {geo.status === "done" && "Distances are approximate straight-line distances from your location."}
         </p>
 
@@ -101,13 +102,13 @@ export function BranchLocator() {
                 onKeyDown={(e) => onKeyDown(e, i)}
                 className={cn(
                   "cursor-pointer rounded-3xl border-2 p-5 text-left transition-[border-color,box-shadow,background-color]",
-                  active ? "border-primary-600 bg-white shadow-card ring-4 ring-primary-100" : "border-line bg-white shadow-soft hover:border-primary-300",
+                  active ? "border-primary-900 bg-white ring-4 ring-primary-900/5" : "border-line bg-white hover:border-primary-900/40",
                 )}
               >
                 <span className="flex items-start justify-between gap-3">
-                  <span className="font-display text-2xl leading-tight text-primary-800">
+                  <span className="font-display text-2xl leading-tight text-primary-900">
                     {b.shortName}
-                    {b.city !== b.shortName && <span className="text-primary-800/70">, {b.city}</span>}
+                    {b.city !== b.shortName && <span className="text-primary-900/65">, {b.city}</span>}
                   </span>
                   {nearestSlug === b.slug && <span className="shrink-0 rounded-full bg-accent-600 px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-wider text-white">Nearest</span>}
                 </span>
@@ -124,16 +125,16 @@ export function BranchLocator() {
         </div>
       </div>
 
-      <div id="branch-panel" role="tabpanel" aria-labelledby={`tab-${selected.slug}`} className="overflow-hidden rounded-[2rem] border border-line bg-white shadow-card">
+      <div id="branch-panel" role="tabpanel" aria-labelledby={`tab-${selected.slug}`} className="overflow-hidden rounded-[1.75rem] border border-line bg-white sm:rounded-[2rem]">
         <div className="h-72 sm:h-96">
           <MapEmbed key={selected.slug} branch={selected} autoLoad className="min-h-0" />
         </div>
         <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <h2 className="font-display text-3xl leading-tight text-primary-800">
+              <h2 className="font-display text-3xl leading-tight text-primary-900">
                 {selected.shortName}
-                {selected.city !== selected.shortName && <span className="text-primary-800/70">, {selected.city}</span>}
+                {selected.city !== selected.shortName && <span className="text-primary-900/65">, {selected.city}</span>}
               </h2>
               <OpenNow />
             </div>
@@ -147,17 +148,14 @@ export function BranchLocator() {
               </li>
               <li className="flex gap-3">
                 <Clock className="mt-1 size-5 shrink-0 text-accent-600" aria-hidden="true" />
-                <span>
-                  {site.hours.label}: {site.hours.sessions.map((s) => s.display).join(" & ")}
-                  <span className="block text-sm text-muted">{site.hours.closedLabel}: Closed</span>
-                </span>
+                <HoursLines />
               </li>
             </ul>
             <div className="mt-5">
               <GoogleRating branch={selected} />
             </div>
           </div>
-          <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1">
+          <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1 [&>a]:max-sm:w-full">
             <ButtonLink href={directionsUrl(selected)}>
               <Navigation className="size-4" aria-hidden="true" /> Get Directions
             </ButtonLink>
@@ -170,7 +168,7 @@ export function BranchLocator() {
           </div>
         </div>
         <div className="border-t border-line bg-surface px-6 py-4 sm:px-8">
-          <Link href={`/branches/${selected.slug}`} className="inline-flex items-center gap-1.5 rounded-md text-sm font-bold text-primary-700 hover:text-accent-600">
+          <Link href={`/branches/${selected.slug}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-md text-sm font-bold text-primary-700 hover:text-accent-700">
             More about our {selected.shortName} clinic <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>

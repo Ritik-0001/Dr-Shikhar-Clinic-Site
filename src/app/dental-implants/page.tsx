@@ -40,9 +40,9 @@ const compare = {
   columns: ["Dental implant", "Dental bridge", "Dentures"],
   rows: [
     ["How it feels", "Closest to a natural tooth", "Fixed and natural-feeling", "Removable; can feel bulky or loose"],
-    ["Affects neighbouring teeth?", "No", "Yes — they're reduced to hold the bridge", "Partial dentures clasp onto them"],
+    ["Affects neighbouring teeth?", "No", "Yes, they're reduced to hold the bridge", "Partial dentures clasp onto them"],
     ["Helps preserve jawbone?", "Yes", "No", "No"],
-    ["Typical treatment time", "Several months, including healing", "A few visits over 1–2 weeks", "A few visits over a few weeks"],
+    ["Typical treatment time", "Several months, including healing", "A few visits over 1 to 2 weeks", "A few visits over a few weeks"],
     ["Daily care", "Brush and floss like natural teeth", "Special cleaning under the bridge", "Remove and clean every day"],
     ["Upfront cost", "Higher", "Moderate", "Lowest"],
   ],
@@ -69,8 +69,8 @@ export default function DentalImplantsPage() {
         }
         aside={
           <div className="relative mx-auto w-full max-w-md">
-            <div className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-linear-to-br from-primary-100 to-white" aria-hidden="true" />
-            <div className="rounded-[2rem] bg-white p-6 shadow-lift ring-1 ring-line">
+            <span className="glow absolute -inset-12 -z-10 [--glow:rgb(246_205_188/0.75)]" aria-hidden="true" />
+            <div className="rounded-[2rem] border border-line bg-white p-6 shadow-card">
               <ImplantDiagram className="h-auto w-full" />
             </div>
           </div>
@@ -80,14 +80,16 @@ export default function DentalImplantsPage() {
       <section className="section-y pt-6" aria-labelledby="benefits">
         <div className="container-page">
           <SectionHeading eyebrow="Why implants" title={<span id="benefits">The closest thing to a natural tooth</span>} description="Missing teeth affect more than your smile. Here's why many patients choose implants." />
-          <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {benefits.map(({ icon: Icon, title, text }) => (
-              <li key={title} className="reveal rounded-3xl border border-line bg-white p-7 shadow-soft">
-                <span className="grid size-14 place-items-center rounded-2xl bg-accent-50 text-accent-600">
-                  <Icon className="size-7" aria-hidden="true" />
+              <li key={title} className="reveal flex items-start gap-4 rounded-3xl border border-line bg-white p-5 sm:block sm:p-7">
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-accent-50 text-accent-600 sm:size-14">
+                  <Icon className="size-6 sm:size-7" aria-hidden="true" />
                 </span>
-                <h3 className="mt-6 text-xl font-bold text-primary-900">{title}</h3>
-                <p className="mt-2.5 text-[0.98rem] leading-relaxed text-muted">{text}</p>
+                <div>
+                  <h3 className="text-lg font-bold leading-snug text-primary-900 sm:mt-6 sm:text-xl">{title}</h3>
+                  <p className="mt-1.5 text-[0.98rem] leading-relaxed text-muted sm:mt-2.5">{text}</p>
+                </div>
               </li>
             ))}
           </ul>
@@ -106,7 +108,7 @@ export default function DentalImplantsPage() {
       <section id="journey" className="section-y" aria-labelledby="journey-heading">
         <div className="container-page grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-20">
           <div>
-            <SectionHeading eyebrow="Your implant journey" title={<span id="journey-heading">What happens, step by step</span>} description="A clear plan from the first consultation to long-term care — with no surprises." />
+            <SectionHeading eyebrow="Your implant journey" title={<span id="journey-heading">What happens, step by step</span>} description="A clear plan from the first consultation to long-term care, with no surprises." />
             <div className="mt-10">
               <StepsTimeline steps={implants.steps} />
             </div>
@@ -119,8 +121,8 @@ export default function DentalImplantsPage() {
 
       <section className="section-y bg-surface" aria-labelledby="compare-heading">
         <div className="container-page">
-          <SectionHeading eyebrow="Compare your options" title={<span id="compare-heading">Implants vs bridges vs dentures</span>} description="Each option has its place. This is a general guide — your dentist will recommend what suits your mouth, health and budget." />
-          <div tabIndex={0} role="region" aria-label="Comparison table (scrolls sideways on small screens)" className="mt-10 overflow-x-auto rounded-3xl border border-line bg-white shadow-card">
+          <SectionHeading eyebrow="Compare your options" title={<span id="compare-heading">Implants vs bridges vs dentures</span>} description="Each option has its place. This is a general guide. Your dentist will recommend what suits your mouth, health and budget." />
+          <div tabIndex={0} role="region" aria-label="Comparison table (scrolls sideways on small screens)" className="mt-10 overflow-x-auto rounded-3xl border border-line bg-white">
             <table className="w-full min-w-[40rem] border-collapse text-left">
               <caption className="sr-only">Comparison of dental implants, dental bridges and dentures</caption>
               <thead>
@@ -159,13 +161,13 @@ export default function DentalImplantsPage() {
         <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <SectionHeading eyebrow="Is it right for you?" title={<span id="candidate">Who is a good candidate for implants?</span>} />
-            <p className="mt-5 text-lg leading-relaxed text-muted">
-              Most healthy adults are. What matters most is healthy gums and enough jawbone — which we check with digital X-rays. Conditions such as uncontrolled diabetes or heavy smoking can affect healing, so we discuss those openly first.
+            <p className="mt-5 text-[1.05rem] leading-relaxed text-muted sm:text-lg">
+              Most healthy adults are. What matters most is healthy gums and enough jawbone, which we check with digital X-rays. Conditions such as uncontrolled diabetes or heavy smoking can affect healing, so we discuss those openly first.
             </p>
           </div>
           <ul className="grid gap-4">
             {implants.goodFor.map((g) => (
-              <li key={g} className="flex items-start gap-3.5 rounded-2xl border border-line bg-white p-5 shadow-soft">
+              <li key={g} className="flex items-start gap-3.5 rounded-2xl border border-line bg-white p-5">
                 <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full bg-accent-600 text-white">
                   <Check className="size-4" aria-hidden="true" />
                 </span>
@@ -178,7 +180,7 @@ export default function DentalImplantsPage() {
 
       <section className="section-y bg-surface" aria-labelledby="implant-faqs">
         <div className="container-page grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:gap-16">
-          <SectionHeading eyebrow="Implant FAQs" title={<span id="implant-faqs">Your questions, answered honestly</span>} description="Not seeing your question? Ask us at your consultation — we're always happy to explain." />
+          <SectionHeading eyebrow="Implant FAQs" title={<span id="implant-faqs">Your questions, answered honestly</span>} description="Not seeing your question? Ask us at your consultation. We're always happy to explain." />
           <FaqList faqs={implants.faqs} />
         </div>
       </section>
@@ -196,7 +198,7 @@ export default function DentalImplantsPage() {
         </section>
       )}
 
-      <CtaBanner title="Ready to replace missing teeth?" description="Book an implant consultation at our Nikol (Ahmedabad) or Dhrangadhra clinic. We'll examine, explain and plan — with honest advice on what's right for you." className="pt-0" />
+      <CtaBanner title="Ready to replace missing teeth?" description="Book an implant consultation at our Nikol (Ahmedabad) or Dhrangadhra clinic. We'll examine, explain and plan, with honest advice on what's right for you." className="pt-0" />
 
       <JsonLd
         data={[

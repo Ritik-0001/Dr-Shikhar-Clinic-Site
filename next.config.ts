@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Implants have their own, richer page — keep the natural treatment URL working.
+      // Implants have their own, richer page, so keep the natural treatment URL working.
       { source: "/treatments/dental-implants", destination: "/dental-implants", permanent: true },
     ];
   },

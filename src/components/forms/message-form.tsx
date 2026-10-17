@@ -92,7 +92,7 @@ export function MessageForm({ variant = "contact", defaultBranch, submitLabel }:
         <span className="grid size-12 place-items-center rounded-full bg-emerald-600 text-white">
           <CheckCircle2 className="size-7" aria-hidden="true" />
         </span>
-        <h3 className="font-display mt-5 text-3xl leading-tight text-primary-800">Press send in WhatsApp to finish</h3>
+        <h3 className="font-display mt-5 text-3xl leading-tight text-primary-900">Press send in WhatsApp to finish</h3>
         <p className="mt-3 text-[1.05rem] leading-relaxed text-ink-soft">
           Your message to the <strong>{sent.branch.shortName}</strong> clinic is ready in WhatsApp. If it didn&apos;t open, use the button below.
         </p>
@@ -165,7 +165,7 @@ export function MessageForm({ variant = "contact", defaultBranch, submitLabel }:
           id="message"
           name="message"
           rows={camp ? 3 : 5}
-          placeholder={camp ? "Preferred dates, venue, age group — anything that helps us plan." : "How can we help?"}
+          placeholder={camp ? "Preferred dates, venue, age group: anything that helps us plan." : "How can we help?"}
           className="field"
           {...fieldAria("message", errors.message)}
         />

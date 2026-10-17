@@ -13,8 +13,8 @@ import { formatLongDate, greeting, isClosedDay, isValidPhone, messageLink, today
 import { Field, FieldSet, fieldAria } from "./field";
 
 const timeSlots = [
-  { value: "Morning (9 AM – 1 PM)", label: "Morning", sub: "9 AM – 1 PM" },
-  { value: "Evening (4 PM – 8 PM)", label: "Evening", sub: "4 PM – 8 PM" },
+  { value: "Morning (9 AM to 1 PM)", label: "Morning", sub: "9 AM to 1 PM" },
+  { value: "Evening (4 PM to 8 PM)", label: "Evening", sub: "4 PM to 8 PM" },
   { value: "No preference", label: "Any time", sub: "Whatever's free" },
 ];
 
@@ -31,7 +31,7 @@ type Summary = {
 
 /**
  * Appointment request. There's no booking backend yet, so the form composes the details into a
- * WhatsApp message to the chosen clinic — the quickest route to a confirmed slot for most patients.
+ * WhatsApp message to the chosen clinic: the quickest route to a confirmed slot for most patients.
  */
 export function AppointmentForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -74,7 +74,7 @@ export function AppointmentForm() {
     if (!branchSlug) next.branch = "Please choose the clinic you'd like to visit.";
     if (date) {
       if (date < todayIST()) next.date = "Please choose today or a future date.";
-      else if (isClosedDay(date)) next.date = "We're closed on Sundays — please choose Monday to Saturday.";
+      else if (isClosedDay(date)) next.date = "We're closed on Sundays. Please choose Monday to Saturday.";
     }
     setErrors(next);
     if (Object.keys(next).length) {
@@ -102,7 +102,7 @@ export function AppointmentForm() {
 
   if (summary) {
     const mail = mailtoUrl(
-      `Appointment request — ${summary.name}`,
+      `Appointment request from ${summary.name}`,
       [greeting(summary.branch), "", `Name: ${summary.name}`, `Phone: ${summary.phone}`, `Treatment: ${summary.treatment}`, `Preferred date: ${summary.date}`, `Preferred time: ${summary.time}`, summary.notes && `Notes: ${summary.notes}`]
         .filter(Boolean)
         .join("\n"),
@@ -112,12 +112,12 @@ export function AppointmentForm() {
         <span className="grid size-14 place-items-center rounded-full bg-emerald-600 text-white">
           <CheckCircle2 className="size-8" aria-hidden="true" />
         </span>
-        <h2 className="font-display mt-6 text-[clamp(1.9rem,1.3rem+2vw,2.6rem)] leading-tight text-primary-800">One last step: send it on WhatsApp</h2>
+        <h2 className="font-display mt-6 text-[clamp(1.9rem,1.3rem+2vw,2.6rem)] leading-tight text-primary-900">One last step: send it on WhatsApp</h2>
         <p className="mt-3 max-w-xl text-lg leading-relaxed text-ink-soft">
           We&apos;ve opened WhatsApp with your details for the <strong>{summary.branch.shortName}</strong> clinic. Just press <strong>send</strong> and the team will confirm your slot. Didn&apos;t open? Use the button below.
         </p>
 
-        <dl className="mt-7 grid gap-x-8 gap-y-3 rounded-2xl bg-white p-6 text-[0.98rem] shadow-soft sm:grid-cols-2">
+        <dl className="mt-7 grid gap-x-8 gap-y-3 rounded-2xl bg-white p-6 text-[0.98rem] sm:grid-cols-2">
           {[
             ["Name", summary.name],
             ["Mobile", summary.phone],
@@ -169,8 +169,8 @@ export function AppointmentForm() {
           {branches.map((b) => (
             <label key={b.slug} className="group relative cursor-pointer">
               <input type="radio" name="branch" value={b.slug} className="peer sr-only" />
-              <span className="flex h-full gap-3.5 rounded-2xl border-[1.5px] border-line bg-white p-4 shadow-soft transition-colors hover:border-primary-300 peer-checked:border-primary-600 peer-checked:bg-primary-50 peer-checked:ring-4 peer-checked:ring-primary-100 peer-focus-visible:ring-4 peer-focus-visible:ring-primary-300">
-                <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-primary-50 text-accent-600 group-has-[:checked]:bg-primary-700 group-has-[:checked]:text-white">
+              <span className="flex h-full gap-3.5 rounded-2xl border-[1.5px] border-line bg-white p-4 transition-colors hover:border-primary-900/40 peer-checked:border-primary-900 peer-checked:bg-white peer-checked:ring-4 peer-checked:ring-primary-900/5 peer-focus-visible:ring-4 peer-focus-visible:ring-primary-300">
+                <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-accent-50 text-accent-600 group-has-[:checked]:bg-primary-900 group-has-[:checked]:text-white">
                   <MapPin className="size-[1.1rem]" aria-hidden="true" />
                 </span>
                 <span>
@@ -187,7 +187,7 @@ export function AppointmentForm() {
       </FieldSet>
 
       <div className="grid gap-7 sm:grid-cols-2">
-        <Field label="Treatment" htmlFor="treatment" hint="Not sure? Leave it — we'll start with a check-up.">
+        <Field label="Treatment" htmlFor="treatment" hint="Not sure? Leave it. We'll start with a check-up.">
           <select ref={treatmentRef} id="treatment" name="treatment" defaultValue="" className="field" aria-describedby="treatment-hint">
             <option value="">General check-up / not sure</option>
             {treatments.map((t) => (
@@ -207,7 +207,7 @@ export function AppointmentForm() {
           {timeSlots.map((s, i) => (
             <label key={s.value} className="cursor-pointer">
               <input type="radio" name="time" value={s.value} defaultChecked={i === 2} className="peer sr-only" />
-              <span className="block rounded-2xl border-[1.5px] border-line bg-white px-4 py-3.5 text-center shadow-soft transition-colors hover:border-primary-300 peer-checked:border-primary-600 peer-checked:bg-primary-50 peer-checked:ring-4 peer-checked:ring-primary-100 peer-focus-visible:ring-4 peer-focus-visible:ring-primary-300">
+              <span className="block rounded-2xl border-[1.5px] border-line bg-white px-4 py-3.5 text-center transition-colors hover:border-primary-900/40 peer-checked:border-primary-900 peer-checked:bg-white peer-checked:ring-4 peer-checked:ring-primary-900/5 peer-focus-visible:ring-4 peer-focus-visible:ring-primary-300">
                 <span className="block font-bold text-primary-900">{s.label}</span>
                 <span className="block text-sm text-muted">{s.sub}</span>
               </span>
@@ -216,7 +216,7 @@ export function AppointmentForm() {
         </div>
       </FieldSet>
 
-      <Field label="Anything we should know?" htmlFor="notes" hint="Symptoms, allergies or medicines — whatever helps us prepare.">
+      <Field label="Anything we should know?" htmlFor="notes" hint="Symptoms, allergies or medicines: whatever helps us prepare.">
         <textarea id="notes" name="notes" rows={3} placeholder="e.g. Pain in the lower right tooth for 3 days" className="field" aria-describedby="notes-hint" />
       </Field>
 
@@ -226,7 +226,7 @@ export function AppointmentForm() {
         </Button>
         <p className={cn("flex items-start gap-2 text-sm text-muted sm:max-w-xs")}>
           <CalendarCheck className="mt-0.5 size-4 shrink-0 text-accent-600" aria-hidden="true" />
-          Your details open in WhatsApp for you to review and send — nothing is submitted until you press send.
+          Your details open in WhatsApp for you to review and send. Nothing is submitted until you press send.
         </p>
       </div>
     </form>

@@ -1,16 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Serif_Display, Figtree } from "next/font/google";
+import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
 import { FloatingContact } from "@/components/layout/floating-contact";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { RouteFeedback } from "@/components/layout/route-feedback";
 import { TopBar } from "@/components/layout/top-bar";
 import { JsonLd } from "@/components/ui/json-ld";
 import { site } from "@/data/site";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
-const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree", display: "swap" });
-const dmSerif = DM_Serif_Display({ subsets: ["latin"], weight: "400", variable: "--font-dm-serif", display: "swap" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
+// Headings: a confident, friendly sans (variable weight, so one small file covers every heading weight).
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: "swap" });
 
 const defaultTitle = `${site.name} | Dentist in Nikol, Ahmedabad & Dhrangadhra`;
 
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
   creator: site.name,
   keywords: [
     "Dentist in Ahmedabad",
-    "Best Dentist in Nikol",
+    "Dentist in Nikol",
     "Dentist in Dhrangadhra",
     "Dental Clinic Ahmedabad",
     "Dental Implants Ahmedabad",
@@ -51,14 +53,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16478c",
+  themeColor: "#fffdf9",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${figtree.variable} ${dmSerif.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${manrope.variable} ${jakarta.variable}`}>
       <body>
         <a
           href="#main"
@@ -66,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
+        <RouteFeedback />
         <TopBar />
         <Header />
         <main id="main" tabIndex={-1} className="outline-none">

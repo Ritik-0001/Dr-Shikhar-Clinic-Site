@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "engines": { "node": ">=20.9.0" },
-  "description": "Website for Shree Hari Dental Care (SHDC) — Nikol, Ahmedabad & Dhrangadhra, Gujarat",
+  "description": "Website for Shree Hari Dental Care (SHDC), Nikol, Ahmedabad & Dhrangadhra, Gujarat",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -7,9 +7,9 @@ import { branches } from "@/data/branches";
 import { dentistJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Branch Locator — Clinics in Nikol, Ahmedabad & Dhrangadhra",
+  title: "Branch Locator: Clinics in Nikol, Ahmedabad & Dhrangadhra",
   description:
-    "Find a Shree Hari Dental Care clinic near you: Nikol (Palm Arcade, Nikol–Naroda Road, Ahmedabad) and Dhrangadhra (Navyug Road). Map, directions, phone numbers, WhatsApp and timings.",
+    "Find a Shree Hari Dental Care clinic near you: Nikol (Palm Arcade, Nikol-Naroda Road, Ahmedabad) and Dhrangadhra (Navyug Road). Map, directions, phone numbers, WhatsApp and timings.",
   path: "/branches",
   keywords: ["dentist in Nikol", "dentist in Dhrangadhra", "dental clinic Ahmedabad", "multispeciality dental clinic Gujarat"],
 });

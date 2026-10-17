@@ -1,6 +1,6 @@
-# Shree Hari Dental Care — website
+# Shree Hari Dental Care: website
 
-Multi-page marketing site for **Shree Hari Dental Care (SHDC)** — a multispeciality dental clinic with branches in
+Multi-page marketing site for **Shree Hari Dental Care (SHDC)**, a multispeciality dental clinic with branches in
 **Nikol (Ahmedabad)** and **Dhrangadhra**, Gujarat. Built by LaunchCraft with Next.js (App Router), React 19, TypeScript and Tailwind CSS v4.
 
 > Tagline: *Healthy Teeth. Happy Life. Confident You.* · Parent company: Shreenath Healthcare Pvt. Ltd.
@@ -25,8 +25,9 @@ project's production URL automatically.
 
 | Route | What it is |
 |---|---|
-| `/` | Home: hero, trust strip, treatments, why-us, implants spotlight, patient journey, technology & sterilization, founder, testimonials, branches, programs, blog, FAQs |
-| `/about` | Story, vision & mission, values, technology (`#technology`), sterilization protocol (`#sterilization`) |
+| `/` | A deliberately short home page: hero, treatments, why us, founder, reviews, clinics, FAQ teaser, call to action |
+| `/about` | Story, vision and mission, values, ten reasons to choose us |
+| `/technology` | Equipment (ten items) and the sterilization protocol (`#technology`, `#sterilization`) |
 | `/doctors` | Founder profile (add more doctors in `src/data/doctors.ts`) |
 | `/treatments`, `/treatments/[slug]` | Overview + one page per speciality (10), generated from `src/data/treatments.ts` |
 | `/dental-implants` | Bespoke implants page: options, journey, implants vs bridges vs dentures, FAQs |
@@ -34,44 +35,67 @@ project's production URL automatically.
 | `/testimonials` | Google rating summary + patient comments (sample copy, clearly labelled) |
 | `/blog`, `/blog/[slug]` | 8 oral-health articles (`src/data/blog.ts`) |
 | `/faqs` | Grouped FAQs + FAQPage structured data |
-| `/appointment` | Appointment request form → WhatsApp |
-| `/contact` | Branch cards, message form → WhatsApp, hours, Instagram |
+| `/appointment` | Appointment request form (opens WhatsApp) and the nine-step patient journey |
+| `/contact` | Branch cards, message form (opens WhatsApp), hours, Instagram |
 | `/branches`, `/branches/[slug]` | Branch locator (live open/closed, "nearest to me") + a local-SEO page per branch |
 | `/special-programs` | Camps and community programs + request form |
 
-Also: `sitemap.xml`, `robots.txt`, web manifest, favicon/app icons, a social-share image (`opengraph-image`) and a custom 404.
+34 pages in total. Also: `sitemap.xml`, `robots.txt`, web manifest, favicon/app icons, a social-share image (`opengraph-image`) and a custom 404.
+
+## Design system
+
+- **Art direction:** warm ivory canvas, warm-white cards, sand bands, deep navy bands with fine grain and soft colour glows, and the brand red as the single accent. Calm: few borders, almost no shadows, plenty of whitespace.
+- **Type:** Fraunces (display serif with an optical-size axis) for headings and Manrope for body text, both self-hosted through `next/font`.
+- **Tokens and utilities** are at the top of `src/app/globals.css` (`@theme static`, then `container-page`, `section-y`, `eyebrow`, `glow`, `.grain-layer`, `bg-hero-glow`, `.swipe-row`, `.reveal`).
+- **Shared building blocks:** `SectionHeading`, `PageHero`, `CtaBanner`, `Button`/`ButtonLink`, `TreatmentCard`, `BranchCard`, `FaqList`, `PatientJourney`, `HoursLines`, the home sections in `src/components/home/`.
+- **Header:** a solid, fully opaque, full-width bar at every size. The desktop menu (from 1280 px) is state driven (`desktop-nav.tsx`), so it closes on every route change, link click, Escape and outside click. Below 1280 px the native `<dialog>` drawer (`mobile-menu.tsx`) is used.
+- **Page changes feel like page changes:** `route-feedback.tsx` shows a thin progress bar on navigation and eases the new page in; the page also jumps to the top (`data-scroll-behavior="smooth"` on `<html>` lets Next reset the scroll instantly). All of it is skipped on first load and with reduced motion.
+- **Phones:** full-width stacked buttons, icon-beside-text cards, swipeable review row, compact two-column footer, sticky Call / Chat / Book bar.
+- **Writing rule:** no em dashes in site copy. Use commas, colons, full stops or brackets, and write time ranges as "9:00 AM to 1:00 PM".
+
+## Photos
+
+The client has not supplied photography yet, so every photo slot has a designed fallback (brand arch, doctor monogram, clinic cover).
+To use a real photo, copy it into `public/images/` and set its path:
+
+| Slot | File |
+|---|---|
+| Home hero (portrait, about 4:5) | `src/data/photos.ts` (`hero`) |
+| Each clinic card (about 3:2) | `src/data/photos.ts` (`clinics`) |
+| Doctor portrait | `src/data/doctors.ts` (`photo`) |
 
 ## Where to change things
 
-Almost everything lives in plain data files — no code changes needed for content updates.
+Almost everything lives in plain data files, so content updates need no code changes.
 
-| To change… | Edit |
+| To change | Edit |
 |---|---|
 | Name, tagline, opening hours, Instagram, **e-mail** | `src/data/site.ts` |
 | Branch addresses, phone/WhatsApp numbers, coordinates, Google rating | `src/data/branches.ts` |
 | Treatments & procedures, FAQs per treatment | `src/data/treatments.ts` |
-| Global FAQs | `src/data/faqs.ts` |
+| Global FAQs (and which four show on the home page) | `src/data/faqs.ts` |
 | Blog posts | `src/data/blog.ts` |
 | Patient testimonials | `src/data/testimonials.ts` (delete `sample: true` on real ones) |
 | Doctors (bio, **photo**) | `src/data/doctors.ts` (put photos in `public/images/team/`, set `photo`) |
+| Home and clinic photos | `src/data/photos.ts` |
 | Why-us, technology, sterilization, journey, values, programs | `src/data/content.ts` |
 | Navigation | `src/data/navigation.ts` |
 | Colours & fonts | `src/app/globals.css` (tokens at the top) and `src/app/layout.tsx` |
 
 ## Still needed from the client
 
-Everything below is wired up and hidden/flagged until supplied:
+Everything below is wired up and hidden or flagged until supplied:
 
-- **E-mail address** — `site.email` is `null`, so e-mail is hidden everywhere. Set it and it appears in the contact page and form fallbacks.
-- **Confirm phone numbers** — branch numbers were read from each public Google Maps listing (Nikol +91 92656 16569, Dhrangadhra +91 94276 64500) and are also used as WhatsApp numbers. Confirm both are WhatsApp-enabled, or add dedicated numbers.
-- **Live domain** — set `NEXT_PUBLIC_SITE_URL`.
-- **Real patient reviews** — the six comments on `/testimonials` are placeholders labelled **Sample**. Replace with real, consented reviews. Only use patient content with written consent.
-- **Real before/after cases** — the gallery uses illustrations (labelled as such). Add real photos only with patient consent.
-- **Doctor photo & credentials** — shows a designed monogram until `photo` is set. Add experience/registration details if the doctor wants them shown.
-- **Founding year** — `site.founded` (optional "Since …").
-- **Clinic photography** — a short photo shoot at both clinics would lift trust and conversion more than anything else.
-- **Privacy policy / terms** — not drafted (the forms hand off to WhatsApp and store nothing). Needed if you run ads or lead forms.
-- **Gujarati version** — the identity is bilingual (logo); full Gujarati content would need a native translator/reviewer.
+- **E-mail address:** `site.email` is `null`, so e-mail is hidden everywhere. Set it and it appears in the contact page and form fallbacks.
+- **Confirm phone numbers:** branch numbers were read from each public Google Maps listing (Nikol +91 92656 16569, Dhrangadhra +91 94276 64500) and are also used as WhatsApp numbers. Confirm both are WhatsApp-enabled, or add dedicated numbers.
+- **Live domain:** set `NEXT_PUBLIC_SITE_URL`.
+- **Real patient reviews:** the six comments on `/testimonials` are placeholders labelled **Sample**. Replace with real, consented reviews. Only use patient content with written consent.
+- **Real before/after cases:** the gallery uses illustrations (labelled as such). Add real photos only with patient consent.
+- **Photography:** clinic exterior and interior, the treatment room, the team and a doctor portrait (see "Photos"). A short shoot at both clinics will lift trust and conversion more than anything else.
+- **Doctor credentials:** add experience and registration details if the doctor wants them shown.
+- **Founding year:** `site.founded` (optional "Since ...").
+- **Privacy policy / terms:** not drafted (the forms hand off to WhatsApp and store nothing). Needed if you run ads or lead forms.
+- **Gujarati version:** the identity is bilingual (logo); full Gujarati content would need a native translator/reviewer.
 
 ## Brand assets
 
@@ -84,17 +108,18 @@ The client sent two JPEG logos on black backgrounds. They are kept untouched in 
 by measuring the exact brand colours (**red `#C3262F`, blue `#16478C`**), un-mixing each colour from the black background into
 an alpha mask, and tracing it to SVG. It outputs the emblem, English/Gujarati wordmarks, stacked and horizontal lock-ups,
 "reversed" versions for dark backgrounds, PNG fallbacks, the favicon, Apple touch icon and manifest icons. The artwork is
-only re-arranged (e.g. the horizontal header lock-up), never redrawn.
+only re-arranged (for example the horizontal header lock-up), never redrawn.
 
 ## Quality
 
-Measured on the production build (Lighthouse, mobile emulation with simulated slow 4G + 4× CPU throttle, Oct 2026):
+Measured on the production build (Lighthouse, mobile emulation with simulated slow 4G + 4x CPU throttle, Oct 2026):
 
-- Mobile: Performance **93–99**, Accessibility **100**, Best Practices **100**, SEO **100**; CLS **0**; TBT 30–140 ms
-- Desktop: **100 / 100 / 100 / 100** (LCP 0.6 s)
-- axe-core (WCAG 2.2 A/AA + best practice): **0 violations** across all 33 pages (and the 404) at 390 px and 1440 px
+- Mobile: Performance **94 to 98**, Accessibility **100**, Best Practices **100**, SEO **100**; CLS **0**; TBT 40 to 100 ms
+- Desktop: **100 / 100 / 100 / 100** (LCP 0.7 s)
+- axe-core (WCAG 2.2 A/AA + best practice): **0 violations** across the main pages (and the 404) at 390 px and 1440 px
 - No horizontal scroll at 360 / 390 / 768 / 1440 px
-- All pages are statically generated; JavaScript is limited to the menu, contact chooser, forms, branch locator and the
+- Home page length: about 7,800 px on desktop and 13.6 phone screens (the first design was 14,200 px and 33.9 screens)
+- All pages are statically generated; JavaScript is limited to the menus, contact chooser, forms, branch locator, route feedback and the
   before/after slider. Fonts are self-hosted via `next/font` (no Gujarati web font: the Gujarati name is vector artwork).
 - Tested and rejected: Next's experimental `inlineCss` (made Total Blocking Time and HTML size worse on this site).
 
@@ -105,8 +130,8 @@ keyword-targeted pages for every service and both locations.
 ## Forms
 
 There is no booking backend yet. The appointment, contact and camp-request forms validate input (including the
-"closed on Sundays" rule) and open **WhatsApp with the details pre-filled** for the chosen branch — the quickest path to a
-confirmed slot for most patients, and nothing is stored. To collect leads server-side later, add a Route Handler and send
+"closed on Sundays" rule) and open **WhatsApp with the details pre-filled** for the chosen branch, which is the quickest path to a
+confirmed slot for most patients; nothing is stored. To collect leads server-side later, add a Route Handler and send
 to e-mail, Google Sheets or a database (Supabase/Resend fit well).
 
 ## Deploying

@@ -1,13 +1,17 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin, Navigation, Phone, Star } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/brand-icons";
 import { ButtonLink } from "@/components/ui/button";
 import { directionsUrl, type Branch } from "@/data/branches";
+import { photos } from "@/data/photos";
 import { site } from "@/data/site";
+import { cn } from "@/lib/cn";
 import { telUrl, whatsappUrl } from "@/lib/contact";
 import { MapEmbed } from "./map-embed";
 import { OpenNow } from "./open-now";
+import { HoursLines } from "@/components/ui/hours";
 
 export function GoogleRating({ branch }: { branch: Branch }) {
   return (
@@ -15,32 +19,73 @@ export function GoogleRating({ branch }: { branch: Branch }) {
       href={branch.mapsUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-[0.8125rem] font-semibold text-ink-soft ring-1 ring-line hover:bg-primary-50"
+      className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-[0.8125rem] font-semibold text-ink-soft ring-1 ring-line hover:bg-surface-2"
     >
-      <Star className="size-4 fill-amber-400 text-amber-400" aria-hidden="true" />
+      <Star className="size-4 fill-amber-500 text-amber-500" aria-hidden="true" />
       <span className="font-bold text-ink">{branch.google.rating.toFixed(1)}</span>
       <span>· {branch.google.reviews} Google reviews</span>
     </a>
   );
 }
 
-/** Branch summary card with a click-to-load map, live open/closed status and one-tap actions. */
-export function BranchCard({ branch: b, index = 0 }: { branch: Branch; index?: number }) {
+/** Top of the compact card: the clinic photo when one has been supplied, otherwise a designed brand block. */
+function ClinicCover({ branch: b }: { branch: Branch }) {
+  const photo = photos.clinics[b.slug];
   return (
-    <article style={{ "--i": index } as CSSProperties} className="reveal flex flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-card">
-      <div className="aspect-[16/9] bg-primary-50">
-        <MapEmbed branch={b} />
-      </div>
-      <div className="flex flex-1 flex-col p-6 sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="eyebrow">{b.tagline}</p>
-            <h3 className="font-display mt-3 text-[2rem] leading-tight text-primary-800">
+    <div className="relative isolate aspect-[16/8] overflow-hidden bg-primary-950 text-white sm:aspect-[16/7]">
+      {photo ? (
+        <Image src={photo} alt={`${b.listingName} clinic`} fill sizes="(min-width: 1024px) 36rem, 100vw" className="object-cover" />
+      ) : (
+        <>
+          <span className="glow absolute -right-16 -top-24 -z-10 size-72 [--glow:rgb(58_116_192/0.5)]" aria-hidden="true" />
+          <span className="glow absolute -bottom-32 -left-10 -z-10 size-72 [--glow:rgb(195_38_47/0.28)]" aria-hidden="true" />
+          <span className="grain-layer -z-10" aria-hidden="true" />
+          <span className="emblem-mask absolute -bottom-8 right-6 h-[75%] text-white opacity-[0.09]" aria-hidden="true" />
+          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-8">
+            <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.18em] text-accent-300">
+              <MapPin className="size-4" aria-hidden="true" /> {b.tagline}
+            </p>
+            <p className="font-display mt-2 text-[clamp(1.9rem,1.4rem+1.6vw,2.6rem)] leading-none">
               {b.shortName}
-              {b.city !== b.shortName && <span className="text-primary-800/70">, {b.city}</span>}
-            </h3>
+              {b.city !== b.shortName && <span className="text-white/70">, {b.city}</span>}
+            </p>
           </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Branch summary card with live open/closed status and one-tap actions.
+ * `compact` swaps the click-to-load map for a brand cover and drops the long address block (home page).
+ */
+export function BranchCard({ branch: b, index = 0, compact = false }: { branch: Branch; index?: number; compact?: boolean }) {
+  return (
+    <article
+      style={{ "--i": index } as CSSProperties}
+      className={cn("reveal flex flex-col overflow-hidden rounded-[1.75rem] border border-line bg-white", !compact && "shadow-card")}
+    >
+      {compact ? (
+        <ClinicCover branch={b} />
+      ) : (
+        <div className="aspect-[16/9] bg-surface">
+          <MapEmbed branch={b} />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col p-5 sm:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          {!compact && (
+            <div>
+              <p className="eyebrow">{b.tagline}</p>
+              <h3 className="font-display mt-3 text-[2rem] leading-tight text-primary-900">
+                {b.shortName}
+                {b.city !== b.shortName && <span className="text-primary-900/65">, {b.city}</span>}
+              </h3>
+            </div>
+          )}
           <GoogleRating branch={b} />
+          {compact && <OpenNow />}
         </div>
 
         <ul className="mt-6 grid gap-3.5 text-[0.98rem] text-ink-soft">
@@ -50,25 +95,26 @@ export function BranchCard({ branch: b, index = 0 }: { branch: Branch; index?: n
           </li>
           <li className="flex gap-3">
             <Phone className="mt-1 size-5 shrink-0 text-accent-600" aria-hidden="true" />
-            <a href={telUrl(b)} className="font-semibold text-primary-800 hover:underline">
+            <a href={telUrl(b)} className="font-bold text-primary-800 hover:text-accent-700">
               {b.phone.display}
             </a>
           </li>
-          <li className="flex gap-3">
-            <Clock className="mt-1 size-5 shrink-0 text-accent-600" aria-hidden="true" />
-            <span>
-              {site.hours.label}: {site.hours.sessions.map((s) => s.display).join(" & ")}
-              <span className="block text-sm text-muted">{site.hours.closedLabel}: Closed</span>
-            </span>
-          </li>
+          {!compact && (
+            <li className="flex gap-3">
+              <Clock className="mt-1 size-5 shrink-0 text-accent-600" aria-hidden="true" />
+              <HoursLines />
+            </li>
+          )}
         </ul>
 
-        <div className="mt-5">
-          <OpenNow />
-        </div>
+        {!compact && (
+          <div className="mt-5">
+            <OpenNow />
+          </div>
+        )}
 
-        <div className="mt-auto flex flex-wrap items-center gap-2.5 pt-7">
-          <ButtonLink href={directionsUrl(b)} size="md">
+        <div className="mt-auto grid grid-cols-2 gap-2.5 pt-7 sm:flex sm:flex-wrap">
+          <ButtonLink href={directionsUrl(b)} size="md" className="col-span-2">
             <Navigation className="size-4" aria-hidden="true" /> Get Directions
           </ButtonLink>
           <ButtonLink href={telUrl(b)} variant="outline" size="md">
@@ -78,7 +124,7 @@ export function BranchCard({ branch: b, index = 0 }: { branch: Branch; index?: n
             <WhatsAppIcon className="size-4" /> WhatsApp
           </ButtonLink>
         </div>
-        <Link href={`/branches/${b.slug}`} className="mt-5 inline-flex items-center gap-1.5 self-start rounded-md text-sm font-bold text-primary-700 hover:text-accent-600">
+        <Link href={`/branches/${b.slug}`} className="mt-5 inline-flex min-h-11 items-center gap-1.5 self-start rounded-md text-sm font-bold text-primary-700 hover:text-accent-700">
           Clinic details &amp; services <ArrowRight className="size-4" aria-hidden="true" />
         </Link>
       </div>

@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...branches.map((b) => page(`/branches/${b.slug}`, 0.8, "monthly")),
     page("/about", 0.7, "monthly"),
     page("/doctors", 0.7, "monthly"),
+    page("/technology", 0.6, "monthly"),
     page("/contact", 0.7, "yearly"),
     page("/smile-gallery", 0.6, "monthly"),
     page("/testimonials", 0.6, "monthly"),

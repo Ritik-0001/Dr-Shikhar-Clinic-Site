@@ -14,7 +14,7 @@ type PageMeta = {
 };
 
 /** Per-page metadata: title, description, canonical URL, Open Graph and Twitter cards. */
-const shareImage = { url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — ${site.tagline}` };
+const shareImage = { url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name}: ${site.tagline}` };
 
 export function pageMetadata({ title, description, path, keywords, type = "website", publishedTime }: PageMeta): Metadata {
   const fullTitle = `${title} | ${site.name}`;
@@ -63,7 +63,7 @@ export const websiteJsonLd = () => ({
   publisher: { "@id": absoluteUrl("/#organization") },
 });
 
-/** One schema.org `Dentist` (a LocalBusiness) per branch — drives local-pack / knowledge-panel eligibility. */
+/** One schema.org `Dentist` (a LocalBusiness) per branch: drives local-pack / knowledge-panel eligibility. */
 export function dentistJsonLd(b: Branch) {
   return {
     "@context": "https://schema.org",
@@ -108,7 +108,7 @@ export const faqJsonLd = (faqs: Faq[]) => ({
   })),
 });
 
-/** The last crumb (current page) may omit `path` — schema.org allows the final item to have no URL. */
+/** The last crumb (current page) may omit `path`: schema.org allows the final item to have no URL. */
 export const breadcrumbJsonLd = (items: { name: string; path?: string }[]) => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",

@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ title: t.seo.title, description: t.seo.description, path: `/treatments/${t.slug}`, keywords: t.seo.keywords });
 }
 
-const heading = "font-display text-[clamp(1.9rem,1.3rem+2vw,2.6rem)] leading-[1.1] text-primary-800";
+const heading = "font-display text-[clamp(1.8rem,1.3rem+1.9vw,2.45rem)] leading-[1.15] text-primary-900";
 
 export default async function TreatmentPage({ params }: Props) {
   const { slug } = await params;
@@ -53,11 +53,20 @@ export default async function TreatmentPage({ params }: Props) {
         breadcrumbs={[{ label: "Treatments", href: "/treatments" }, { label: t.title }]}
         aside={
           <div className="hidden justify-self-end lg:block" aria-hidden="true">
-            <div className="relative grid size-64 place-items-center rounded-[3rem] bg-linear-to-br from-primary-700 to-primary-900 text-white shadow-lift">
-              <div className="bg-dots absolute inset-0 rounded-[3rem] opacity-20" />
-              <span className="[--icon-accent:var(--color-accent-300)]">
-                <DentalIcon name={t.icon} size={150} strokeWidth={1.8} />
-              </span>
+            <div className="relative aspect-[4/5] w-60">
+              <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-t-[999px] rounded-b-[2rem] bg-accent-200/70" />
+              <div className="relative isolate grid size-full place-items-center overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-primary-950 text-white shadow-lift [--icon-accent:var(--color-accent-300)]">
+                <span className="glow absolute -right-16 -top-20 -z-10 size-64 [--glow:rgb(58_116_192/0.55)]" />
+                <span className="glow absolute -bottom-24 -left-16 -z-10 size-64 [--glow:rgb(195_38_47/0.3)]" />
+                <span className="grain-layer -z-10" />
+                <svg viewBox="0 0 400 500" className="absolute inset-0 -z-10 size-full text-white/15" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <path d="M52 500V200a148 148 0 0 1 296 0v300" />
+                  <path d="M92 500V204a108 108 0 0 1 216 0v296" />
+                </svg>
+                <span className="mt-10">
+                  <DentalIcon name={t.icon} size={120} strokeWidth={1.8} />
+                </span>
+              </div>
             </div>
           </div>
         }
@@ -92,7 +101,7 @@ export default async function TreatmentPage({ params }: Props) {
             </div>
           </section>
 
-          <section aria-labelledby="goodfor" className="rounded-[2rem] bg-surface p-7 ring-1 ring-line sm:p-10">
+          <section aria-labelledby="goodfor" className="rounded-[2rem] bg-surface p-6 sm:p-10">
             <h2 id="goodfor" className={heading}>
               Is this right for you?
             </h2>
@@ -100,7 +109,7 @@ export default async function TreatmentPage({ params }: Props) {
             <ul className="mt-6 grid gap-3.5 sm:grid-cols-2">
               {t.goodFor.map((g) => (
                 <li key={g} className="flex items-start gap-3 text-[1rem] font-semibold leading-snug text-ink-soft">
-                  <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-primary-700 text-white">
+                  <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-accent-600 text-white">
                     <Check className="size-3.5" aria-hidden="true" />
                   </span>
                   {g}
@@ -142,12 +151,12 @@ export default async function TreatmentPage({ params }: Props) {
 
         <div className="grid content-start gap-6 lg:sticky lg:top-28 lg:self-start">
           <BookingCard treatment={t.slug} title={`Book ${t.title.toLowerCase()}`} />
-          <nav aria-label="Other treatments" className="rounded-3xl border border-line bg-white p-6 shadow-soft">
-            <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-muted">Other treatments</h2>
+          <nav aria-label="Other treatments" className="rounded-[1.75rem] border border-line bg-white p-6">
+            <h2 className="text-xs font-extrabold uppercase tracking-[0.16em] text-muted">Other treatments</h2>
             <ul className="mt-4 grid gap-1">
               {others.map((o) => (
                 <li key={o.slug}>
-                  <Link href={treatmentHref(o)} className="flex items-center gap-3 rounded-xl px-2 py-2 text-[0.95rem] font-semibold text-primary-800 transition-colors hover:bg-primary-50 hover:text-accent-600">
+                  <Link href={treatmentHref(o)} className="flex items-center gap-3 rounded-xl px-2 py-2 text-[0.95rem] font-semibold text-primary-800 transition-colors hover:bg-surface hover:text-accent-700">
                     <span className="text-primary-700">
                       <DentalIcon name={o.icon} size={24} />
                     </span>

@@ -7,7 +7,7 @@
  *
  *   1. measures the exact brand red / blue from the artwork,
  *   2. un-mixes each colour from the black background into its own alpha mask
- *      (so anti-aliased edges stay clean — no black halos),
+ *      (so anti-aliased edges stay clean, no black halos),
  *   3. traces the masks to vector paths (potrace) → crisp at any size and only a few KB,
  *   4. writes SVG logos (full-colour + "reversed" for dark backgrounds), PNG fallbacks,
  *      the favicon set and the web-app manifest icons.
@@ -46,7 +46,7 @@ const UPSCALE = 2; // trace at 2x so thin strokes get smooth curves
 const hex = (c) => "#" + c.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("");
 const median = (values) => values.slice().sort((a, b) => a - b)[Math.floor(values.length / 2)];
 
-/** Median colour of "solid" pixels matching a predicate — robust against JPEG noise. */
+/** Median colour of "solid" pixels matching a predicate, robust against JPEG noise. */
 function measureColour(rgb, predicate) {
   const r = [], g = [], b = [];
   for (let i = 0; i < rgb.length; i += 3) {
@@ -58,7 +58,7 @@ function measureColour(rgb, predicate) {
 }
 
 /**
- * Solves  pixel ≈ a·RED + b·BLUE  per pixel (least squares) — i.e. how much of each brand
+ * Solves  pixel ≈ a·RED + b·BLUE  per pixel (least squares), i.e. how much of each brand
  * colour is present, on top of the black background. Returns two alpha maps in 0..1.
  */
 function unmix(rgb, width, height, red, blue) {
@@ -199,7 +199,7 @@ for (const [name, { file, splitY }] of Object.entries(SOURCES)) {
   const { data, info } = await sharp(path.join(SRC_DIR, file)).removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const { width, height } = info;
 
-  // 1. measure the brand colours once (from the English file — both files share the palette)
+  // 1. measure the brand colours once (from the English file, both files share the palette)
   if (!measured) {
     const red = measureColour(data, (r, g, b) => r > 140 && g < 90 && b < 90);
     const blue = measureColour(data, (r, g, b) => b > 110 && r < 70 && g < 120);
@@ -242,7 +242,7 @@ const layersOf = (part, pal) => [
 ];
 
 // Horizontal lock-up (emblem left, English wordmark right) for headers/footers.
-// Built from the client's own traced artwork — only re-arranged, never redrawn.
+// Built from the client's own traced artwork, only re-arranged, never redrawn.
 const emblemH = emblemGu.box.y1 - emblemGu.box.y0;
 const emblemW = emblemGu.box.x1 - emblemGu.box.x0;
 const WORDMARK_H_RATIO = 0.74; // wordmark height relative to emblem height

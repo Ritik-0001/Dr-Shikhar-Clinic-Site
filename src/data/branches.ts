@@ -22,19 +22,19 @@ export type Branch = {
   /** Full single-line address */
   fullAddress: string;
   landmark?: string;
-  /** Google Plus Code — a short, exact location code shown on the listing */
+  /** Google Plus Code: a short, exact location code shown on the listing */
   plusCode: string;
   phone: { display: string; tel: string; whatsapp: string };
   coordinates: { lat: number; lng: number };
   /** Client-supplied Google Maps share link (opens the business listing) */
   mapsUrl: string;
-  /** Google's internal feature id for the listing — drives the keyless embed below */
+  /** Google's internal feature id for the listing: drives the keyless embed below */
   featureId: string;
   google: { rating: number; reviews: number };
   /** Local-SEO copy for the branch page */
   tagline: string;
   intro: string;
-  /** Who this branch serves — used in copy and structured data */
+  /** Who this branch serves: used in copy and structured data */
   serves: string[];
 };
 
@@ -59,7 +59,7 @@ export const branches: Branch[] = [
     google: { rating: 5.0, reviews: 15 },
     tagline: "Our Ahmedabad clinic",
     intro:
-      "Our Nikol clinic brings complete multispeciality dental care to east Ahmedabad — from routine check-ups and scaling to root canal treatment, dental implants, braces and clear aligners.",
+      "Our Nikol clinic brings complete multispeciality dental care to east Ahmedabad: from routine check-ups and scaling to root canal treatment, dental implants, braces and clear aligners.",
     serves: ["Nikol", "Naroda", "Naroda Road", "Vastral", "Odhav", "Bapunagar", "Ahmedabad"],
   },
   {

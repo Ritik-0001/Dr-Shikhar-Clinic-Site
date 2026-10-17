@@ -18,14 +18,14 @@ export function SectionHeading({ eyebrow, title, description, align = "left", to
       {eyebrow && <p className={cn("eyebrow", dark && "text-accent-300")}>{eyebrow}</p>}
       <Tag
         className={cn(
-          "font-display mt-4 text-[clamp(2.05rem,1.3rem+2.6vw,3.3rem)] leading-[1.07]",
-          dark ? "text-white" : "text-primary-800",
+          "font-display mt-4 text-[clamp(1.9rem,1.4rem+2.3vw,3.1rem)] leading-[1.12] tracking-[-0.03em]",
+          dark ? "text-white" : "text-primary-900",
         )}
       >
         {title}
       </Tag>
       {description && (
-        <p className={cn("mt-5 text-lg leading-relaxed", dark ? "text-primary-200" : "text-muted", align === "center" && "mx-auto")}>
+        <p className={cn("mt-5 text-[1.05rem] leading-relaxed sm:text-lg", dark ? "text-primary-200" : "text-muted", align === "center" && "mx-auto")}>
           {description}
         </p>
       )}

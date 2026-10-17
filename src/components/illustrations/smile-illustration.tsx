@@ -1,6 +1,6 @@
 /**
  * Illustrated before/after smiles (front view of the upper teeth) used by the Smile Gallery.
- * Pure SVG, no photography — each case changes one thing (shade, gap, alignment, chip, missing tooth).
+ * Pure SVG, no photography, each case changes one thing (shade, gap, alignment, chip, missing tooth).
  */
 
 export type SmileCase = "whitening" | "gap" | "alignment" | "chip" | "missing" | "makeover";
@@ -14,7 +14,7 @@ type Tooth = {
   w: number;
   shape: "incisor" | "canine";
   rotate?: number;
-  /** nudge forward (towards viewer) — draws on top of neighbours */
+  /** nudge forward (towards viewer): draws on top of neighbours */
   front?: boolean;
   chipped?: boolean;
   missing?: boolean;

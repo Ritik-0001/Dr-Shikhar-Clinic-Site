@@ -7,7 +7,7 @@ import { telUrl } from "@/lib/contact";
 /** Slim utility strip above the header (desktop only): hours, branch phone numbers, Instagram. */
 export function TopBar() {
   return (
-    <aside aria-label="Clinic hours and phone numbers" className="hidden bg-primary-950 text-[0.8125rem] text-primary-100 md:block">
+    <aside aria-label="Clinic hours and phone numbers" className="hidden bg-primary-950 text-[0.8125rem] text-primary-100 lg:block">
       <div className="container-page flex h-10 items-center justify-between gap-6">
         <p className="flex items-center gap-2">
           <Clock className="size-3.5 text-accent-300" aria-hidden="true" />

@@ -11,6 +11,7 @@ export const primaryNav: NavItem[] = [
     children: [
       { label: "About Us", href: "/about", description: "Our story, vision, mission and values" },
       { label: "Our Doctors", href: "/doctors", description: "Meet the founder and dental team" },
+      { label: "Technology & Safety", href: "/technology", description: "Our equipment and sterilization protocol" },
       { label: "Special Programs", href: "/special-programs", description: "Camps, school and corporate programs" },
     ],
   },
@@ -42,6 +43,7 @@ export const footerNav = {
   clinic: [
     { label: "About Us", href: "/about" },
     { label: "Our Doctors", href: "/doctors" },
+    { label: "Technology & Safety", href: "/technology" },
     { label: "Special Programs", href: "/special-programs" },
     { label: "Branch Locator", href: "/branches" },
     { label: "Contact Us", href: "/contact" },

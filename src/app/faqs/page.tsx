@@ -9,7 +9,7 @@ import { faqJsonLd, pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Dental FAQs",
   description:
-    "Answers to common questions about timings, appointments, painless treatment, sterilization, root canals, implants, braces, whitening and costs at Shree Hari Dental Care — Ahmedabad & Dhrangadhra.",
+    "Answers to common questions about timings, appointments, painless treatment, sterilization, root canals, implants, braces, whitening and costs at Shree Hari Dental Care in Ahmedabad and Dhrangadhra.",
   path: "/faqs",
   keywords: ["dental FAQs", "painless dental treatment", "dentist in Ahmedabad", "root canal treatment Ahmedabad"],
 });
@@ -27,11 +27,11 @@ export default function FaqsPage() {
       <section className="section-y pt-4" aria-label="Frequently asked questions">
         <div className="container-page grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-16">
           <nav aria-label="FAQ topics" className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-sm font-bold uppercase tracking-[0.14em] text-muted">Topics</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-muted">Topics</p>
             <ul className="mt-4 flex flex-wrap gap-2 lg:grid lg:gap-1">
               {faqGroups.map((g) => (
                 <li key={g.id}>
-                  <a href={`#${g.id}`} className="block rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800 transition-colors hover:bg-primary-100 lg:rounded-xl lg:bg-transparent lg:px-3 lg:hover:bg-primary-50">
+                  <a href={`#${g.id}`} className="flex min-h-11 items-center rounded-full border border-line bg-white px-4 text-sm font-bold text-primary-800 transition-colors hover:border-primary-300 lg:rounded-xl lg:border-transparent lg:bg-transparent lg:px-3 lg:hover:bg-surface">
                     {g.title}
                   </a>
                 </li>
@@ -42,7 +42,7 @@ export default function FaqsPage() {
           <div className="grid gap-14">
             {faqGroups.map((g) => (
               <section key={g.id} id={g.id} className="scroll-mt-28" aria-labelledby={`${g.id}-title`}>
-                <h2 id={`${g.id}-title`} className="font-display text-[clamp(1.8rem,1.2rem+1.8vw,2.4rem)] leading-tight text-primary-800">
+                <h2 id={`${g.id}-title`} className="font-display text-[clamp(1.8rem,1.2rem+1.8vw,2.4rem)] leading-tight text-primary-900">
                   {g.title}
                 </h2>
                 <FaqList faqs={g.faqs} className="mt-6" />
@@ -52,7 +52,7 @@ export default function FaqsPage() {
         </div>
       </section>
 
-      <CtaBanner title="Still have a question?" description="Message us on WhatsApp, call the clinic or book a consultation — we're happy to help, and there's never any pressure." className="pt-8" />
+      <CtaBanner title="Still have a question?" description="Message us on WhatsApp, call the clinic or book a consultation. We're happy to help, and there's never any pressure." className="pt-8" />
       <JsonLd data={faqJsonLd(allFaqs.map((f) => ({ q: f.q, a: plainAnswer(f.a) })))} />
     </>
   );

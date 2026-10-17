@@ -7,7 +7,7 @@ export type Testimonial = {
   /**
    * `true` = placeholder copy written for the design preview. The UI labels these "Sample" so they can
    * never be mistaken for real patient feedback. Replace them with real, consented reviews and remove
-   * the flag (or leave it off) — the label disappears automatically.
+   * the flag (or leave it off): the label disappears automatically.
    */
   sample?: boolean;
 };
@@ -30,7 +30,7 @@ export const testimonials: Testimonial[] = [
     sample: true,
   },
   {
-    quote: "Honest advice — I was told what I actually needed instead of being sold extra treatment. I'll recommend them to my family.",
+    quote: "Honest advice: I was told what I actually needed instead of being sold extra treatment. I'll recommend them to my family.",
     name: "K. S.",
     branch: "Dhrangadhra",
     treatment: "Check-up & treatment plan",
@@ -54,7 +54,7 @@ export const testimonials: Testimonial[] = [
     sample: true,
   },
   {
-    quote: "They showed me my X-ray on the screen and explained the implant plan clearly — including the timeline and the cost.",
+    quote: "They showed me my X-ray on the screen and explained the implant plan clearly, including the timeline and the cost.",
     name: "M. D.",
     branch: "Nikol",
     treatment: "Dental Implants",
