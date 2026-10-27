@@ -1,40 +1,26 @@
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock, MapPin, Navigation, Phone, Star } from "lucide-react";
+import { ArrowRight, Clock, MapPin, Navigation, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/brand-icons";
 import { ButtonLink } from "@/components/ui/button";
 import { directionsUrl, type Branch } from "@/data/branches";
-import { photos } from "@/data/photos";
+import { SiteImage } from "@/components/ui/site-image";
+import { getPhoto } from "@/lib/cms/content";
 import { site } from "@/data/site";
 import { cn } from "@/lib/cn";
 import { telUrl, whatsappUrl } from "@/lib/contact";
+import { GoogleRating } from "./google-rating";
 import { MapEmbed } from "./map-embed";
 import { OpenNow } from "./open-now";
 import { HoursLines } from "@/components/ui/hours";
 
-export function GoogleRating({ branch }: { branch: Branch }) {
-  return (
-    <a
-      href={branch.mapsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 text-[0.8125rem] font-semibold text-ink-soft ring-1 ring-line hover:bg-surface-2"
-    >
-      <Star className="size-4 fill-amber-500 text-amber-500" aria-hidden="true" />
-      <span className="font-bold text-ink">{branch.google.rating.toFixed(1)}</span>
-      <span>· {branch.google.reviews} Google reviews</span>
-    </a>
-  );
-}
-
 /** Top of the compact card: the clinic photo when one has been supplied, otherwise a designed brand block. */
-function ClinicCover({ branch: b }: { branch: Branch }) {
-  const photo = photos.clinics[b.slug];
+async function ClinicCover({ branch: b }: { branch: Branch }) {
+  const photo = await getPhoto(`clinic-${b.slug}`);
   return (
     <div className="relative isolate aspect-[16/8] overflow-hidden bg-primary-950 text-white sm:aspect-[16/7]">
       {photo ? (
-        <Image src={photo} alt={`${b.listingName} clinic`} fill sizes="(min-width: 1024px) 36rem, 100vw" className="object-cover" />
+        <SiteImage src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 36rem, 100vw" className="object-cover" />
       ) : (
         <>
           <span className="glow absolute -right-16 -top-24 -z-10 size-72 [--glow:rgb(58_116_192/0.5)]" aria-hidden="true" />

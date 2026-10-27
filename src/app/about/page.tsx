@@ -6,6 +6,8 @@ import { CtaBanner } from "@/components/ui/cta-banner";
 import { Logo } from "@/components/ui/logo";
 import { PageHero } from "@/components/ui/page-hero";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SiteImage } from "@/components/ui/site-image";
+import { getPhoto } from "@/lib/cms/content";
 import { about, values, whyChooseUs } from "@/data/content";
 import { site } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
@@ -19,7 +21,8 @@ export const metadata: Metadata = pageMetadata({
   keywords: ["multispeciality dental clinic Gujarat", "dental clinic Ahmedabad", "affordable dental clinic Ahmedabad", "painless dental treatment"],
 });
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const clinicPhoto = await getPhoto("about-clinic");
   return (
     <>
       <PageHero
@@ -33,7 +36,7 @@ export default function AboutPage() {
       <section className="section-y pt-6 sm:pt-8" aria-labelledby="story">
         <div className="container-page grid items-center gap-12 lg:grid-cols-[1.1fr_.9fr] lg:gap-20">
           <div>
-            <SectionHeading eyebrow="Our story" title={<span id="story">Preventive, patient-first dentistry for Gujarat</span>} />
+            <SectionHeading eyebrow="Our story" title={<span id="story">Preventive, <span className="whitespace-nowrap">patient-first</span> dentistry for Gujarat</span>} />
             <div className="mt-6 grid gap-5 text-[1.05rem] leading-relaxed text-muted sm:text-lg">
               {about.paragraphs.slice(1).map((p) => (
                 <p key={p}>{p}</p>
@@ -53,6 +56,12 @@ export default function AboutPage() {
             </div>
           </div>
 
+          <div className="grid gap-5">
+          {clinicPhoto && (
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-line bg-surface">
+              <SiteImage src={clinicPhoto.src} alt={clinicPhoto.alt} fill sizes="(min-width: 1024px) 34rem, 100vw" className="object-cover" />
+            </div>
+          )}
           <div className="relative isolate overflow-hidden rounded-[2rem] border border-line bg-white p-8 sm:p-12">
             <span className="glow absolute -right-24 -top-24 -z-10 size-72 [--glow:rgb(236_205_150/0.5)]" aria-hidden="true" />
             <span className="glow absolute -bottom-28 -left-20 -z-10 size-72 [--glow:rgb(246_205_188/0.7)]" aria-hidden="true" />
@@ -62,6 +71,7 @@ export default function AboutPage() {
               <Logo variant="stacked-english" height={150} alt={`${site.name} (English logo)`} />
             </div>
             <p className="mt-8 text-center text-sm text-muted">Our identity in Gujarati and English</p>
+          </div>
           </div>
         </div>
       </section>

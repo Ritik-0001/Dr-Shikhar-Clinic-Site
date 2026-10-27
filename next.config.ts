@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90],
+    // photos uploaded in the admin panel are stored on Vercel Blob
+    remotePatterns: [{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" }],
   },
   async redirects() {
     return [
@@ -23,6 +25,9 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // the admin panel and its API must never be indexed or cached
+      { source: "/admin/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }, { key: "Cache-Control", value: "no-store" }] },
+      { source: "/api/admin/:path*", headers: [{ key: "Cache-Control", value: "no-store" }] },
       // Brand artwork + icons rarely change: let browsers/CDNs keep them for a week.
       {
         source: "/(brand|icons)/:file*",

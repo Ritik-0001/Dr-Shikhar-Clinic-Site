@@ -1,5 +1,6 @@
 import { DentalIcon } from "@/components/icons/dental-icons";
 import type { Post } from "@/data/blog";
+import { SiteImage } from "@/components/ui/site-image";
 import { cn } from "@/lib/cn";
 
 const tones: Record<Post["cover"]["tone"], { box: string; glowA: string; glowB: string }> = {
@@ -28,6 +29,13 @@ const tones: Record<Post["cover"]["tone"], { box: string; glowA: string; glowB: 
 /** Brand-toned cover art for a post (no photography needed): soft colour washes and a large tooth icon. */
 export function PostCover({ post, className }: { post: Post; className?: string }) {
   const tone = tones[post.cover.tone];
+  if (post.cover.image) {
+    return (
+      <div className={cn("relative isolate overflow-hidden bg-surface", className)}>
+        <SiteImage src={post.cover.image} alt={post.cover.imageAlt ?? ""} fill sizes="(min-width: 1024px) 40rem, 100vw" className="object-cover" />
+      </div>
+    );
+  }
   return (
     <div className={cn("relative isolate overflow-hidden", tone.box, className)} aria-hidden="true">
       <span className={cn("glow absolute -right-12 -top-20 -z-10 size-72", tone.glowA)} />

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { BlogCard } from "@/components/blog/blog-card";
 import { CtaBanner } from "@/components/ui/cta-banner";
 import { PageHero } from "@/components/ui/page-hero";
-import { posts, sortedPosts } from "@/data/blog";
+import { getAllPosts } from "@/lib/cms/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -13,8 +13,9 @@ export const metadata: Metadata = pageMetadata({
   keywords: ["dental blog India", "oral health tips", "root canal treatment Ahmedabad", "dental implants Ahmedabad", "teeth whitening Ahmedabad"],
 });
 
-export default function BlogPage() {
-  const categories = [...new Set(posts.map((p) => p.category))];
+export default async function BlogPage() {
+  const sortedPosts = await getAllPosts();
+  const categories = [...new Set(sortedPosts.map((p) => p.category))];
   return (
     <>
       <PageHero

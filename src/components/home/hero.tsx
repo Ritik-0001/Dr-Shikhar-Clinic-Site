@@ -4,7 +4,8 @@ import { ArrowRight, CalendarCheck, Heart, Star } from "lucide-react";
 import { OpenNow } from "@/components/branches/open-now";
 import { ButtonLink } from "@/components/ui/button";
 import { branches } from "@/data/branches";
-import { photos } from "@/data/photos";
+import { SiteImage } from "@/components/ui/site-image";
+import { getPhoto } from "@/lib/cms/content";
 import { site } from "@/data/site";
 
 const totalReviews = branches.reduce((n, b) => n + b.google.reviews, 0);
@@ -19,7 +20,8 @@ function Underline() {
   );
 }
 
-export function Hero() {
+export async function Hero() {
+  const heroPhoto = await getPhoto("home-hero");
   return (
     <section className="relative isolate overflow-hidden">
       {/* atmosphere: two big, soft warm glows that fade out before the section edge */}
@@ -76,8 +78,8 @@ export function Hero() {
             <div className="absolute inset-0 -translate-x-3 -translate-y-3 rounded-t-[999px] rounded-b-[2rem] border border-primary-900/15 sm:-translate-x-4 sm:-translate-y-4" aria-hidden="true" />
 
             <div className="relative isolate size-full overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-primary-950 shadow-lift">
-              {photos.hero ? (
-                <Image src={photos.hero} alt="Shree Hari Dental Care" fill sizes="(min-width: 1024px) 28rem, 70vw" className="object-cover" preload />
+              {heroPhoto ? (
+                <SiteImage src={heroPhoto.src} alt={heroPhoto.alt} fill sizes="(min-width: 1024px) 28rem, 70vw" className="object-cover" preload />
               ) : (
                 <>
                   <span className="glow absolute -right-24 -top-24 -z-10 size-72 [--glow:rgb(58_116_192/0.55)]" aria-hidden="true" />

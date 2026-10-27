@@ -4,6 +4,7 @@ import { FloatingContact } from "@/components/layout/floating-contact";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { RouteFeedback } from "@/components/layout/route-feedback";
+import { SiteOnly } from "@/components/layout/site-only";
 import { TopBar } from "@/components/layout/top-bar";
 import { JsonLd } from "@/components/ui/json-ld";
 import { site } from "@/data/site";
@@ -69,14 +70,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <RouteFeedback />
-        <TopBar />
-        <Header />
+        <SiteOnly>
+          <TopBar />
+          <Header />
+        </SiteOnly>
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>
-        <Footer />
-        <FloatingContact />
-        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <SiteOnly>
+          <Footer />
+          <FloatingContact />
+          <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        </SiteOnly>
       </body>
     </html>
   );

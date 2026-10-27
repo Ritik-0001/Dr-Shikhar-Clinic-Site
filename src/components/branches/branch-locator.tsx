@@ -9,7 +9,7 @@ import { branches, directionsUrl } from "@/data/branches";
 import { site } from "@/data/site";
 import { cn } from "@/lib/cn";
 import { telUrl, whatsappUrl } from "@/lib/contact";
-import { GoogleRating } from "./branch-card";
+import { GoogleRating } from "./google-rating";
 import { MapEmbed } from "./map-embed";
 import { OpenNow } from "./open-now";
 import { HoursLines } from "@/components/ui/hours";

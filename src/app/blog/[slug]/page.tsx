@@ -2,28 +2,31 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, Clock, Info } from "lucide-react";
+import { PostBlocks } from "@/components/blog/post-blocks";
 import { PostCover } from "@/components/blog/post-cover";
 import { BookingCard } from "@/components/sections/booking-card";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { CtaBanner } from "@/components/ui/cta-banner";
-import { InlineText } from "@/components/ui/inline-text";
 import { JsonLd } from "@/components/ui/json-ld";
-import { formatPostDate, getPost, posts, sortedPosts, type Block } from "@/data/blog";
+import { posts as builtInPosts, formatPostDate } from "@/data/blog";
+import { getAllPosts, getPostBySlug, getState } from "@/lib/cms/content";
 import { site } from "@/data/site";
 import { getTreatment, treatmentHref } from "@/data/treatments";
 import { articleJsonLd, pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export const dynamicParams = false;
+// Articles written in the admin panel after the last build are rendered on first visit, then cached.
+export const dynamicParams = true;
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const stored = (await getState()).posts.filter((p) => p.status === "published").map((p) => p.slug);
+  return [...new Set([...builtInPosts.map((p) => p.slug), ...stored])].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const p = getPost(slug);
+  const p = await getPostBySlug(slug);
   if (!p) return {};
   return pageMetadata({
     title: p.title,
@@ -35,47 +38,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-function RenderBlock({ block }: { block: Block }) {
-  switch (block.type) {
-    case "h2":
-      return <h2>{block.text}</h2>;
-    case "h3":
-      return <h3>{block.text}</h3>;
-    case "p":
-      return (
-        <p>
-          <InlineText text={block.text} />
-        </p>
-      );
-    case "ul":
-      return (
-        <ul>
-          {block.items.map((item) => (
-            <li key={item}>
-              <InlineText text={item} />
-            </li>
-          ))}
-        </ul>
-      );
-    case "ol":
-      return (
-        <ol>
-          {block.items.map((item) => (
-            <li key={item}>
-              <InlineText text={item} />
-            </li>
-          ))}
-        </ol>
-      );
-  }
-}
-
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
   const treatment = post.treatment ? getTreatment(post.treatment) : undefined;
-  const more = sortedPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const more = (await getAllPosts()).filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
     <>
@@ -108,9 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
         <article>
           <PostCover post={post} className="mb-10 aspect-[16/8] rounded-[1.75rem] sm:mb-12 sm:aspect-[16/7] sm:rounded-[2rem]" />
           <div className="prose-clinic">
-            {post.blocks.map((b, i) => (
-              <RenderBlock key={i} block={b} />
-            ))}
+            <PostBlocks blocks={post.blocks} />
           </div>
 
           <p className="mt-12 flex max-w-2xl items-start gap-3 rounded-2xl border border-line bg-surface p-5 text-[0.95rem] leading-relaxed text-muted">

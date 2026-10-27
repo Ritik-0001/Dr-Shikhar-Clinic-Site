@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { SiteImage } from "@/components/ui/site-image";
+import { getPhoto } from "@/lib/cms/content";
 import type { Doctor } from "@/data/doctors";
 import { cn } from "@/lib/cn";
 
@@ -6,11 +7,13 @@ import { cn } from "@/lib/cn";
  * Doctor portrait card in the brand's arch shape. Shows the real photo when `doctor.photo` is set;
  * until then it shows a designed monogram (soft glows, fine grain, the logo's family dots and initials).
  */
-export function DoctorPortrait({ doctor, className, priority = false }: { doctor: Doctor; className?: string; priority?: boolean }) {
+export async function DoctorPortrait({ doctor, className, priority = false }: { doctor: Doctor; className?: string; priority?: boolean }) {
+  const uploaded = await getPhoto(`doctor-${doctor.slug}`);
+  const photo = uploaded ?? (doctor.photo ? { src: doctor.photo, alt: `${doctor.name}, ${doctor.credential}` } : null);
   return (
     <figure className={cn("relative isolate aspect-[4/5] w-full overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-primary-950 shadow-lift", className)}>
-      {doctor.photo ? (
-        <Image src={doctor.photo} alt={`${doctor.name}, ${doctor.credential}`} fill sizes="(min-width: 1024px) 28rem, 90vw" className="object-cover" preload={priority} />
+      {photo ? (
+        <SiteImage src={photo.src} alt={photo.alt} fill sizes="(min-width: 1024px) 28rem, 90vw" className="object-cover" preload={priority} />
       ) : (
         <div aria-hidden="true">
           <span className="glow absolute -right-24 -top-24 -z-10 size-80 [--glow:rgb(58_116_192/0.55)]" />

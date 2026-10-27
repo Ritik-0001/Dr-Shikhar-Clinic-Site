@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, Clock, MapPin, Navigation, Phone } from "lucide-react";
-import { GoogleRating } from "@/components/branches/branch-card";
+import { GoogleRating } from "@/components/branches/google-rating";
 import { MapEmbed } from "@/components/branches/map-embed";
 import { OpenNow } from "@/components/branches/open-now";
 import { WhatsAppIcon } from "@/components/icons/brand-icons";
@@ -11,7 +11,9 @@ import { FaqList } from "@/components/sections/faq-list";
 import { ButtonLink } from "@/components/ui/button";
 import { CtaBanner } from "@/components/ui/cta-banner";
 import { JsonLd } from "@/components/ui/json-ld";
+import { ArchPhoto } from "@/components/ui/arch-photo";
 import { PageHero } from "@/components/ui/page-hero";
+import { getPhoto } from "@/lib/cms/content";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { branches, directionsUrl, getBranch, type Branch } from "@/data/branches";
 import { site } from "@/data/site";
@@ -64,6 +66,7 @@ export default async function BranchPage({ params }: Props) {
   const { slug } = await params;
   const b = getBranch(slug);
   if (!b) notFound();
+  const photo = await getPhoto(`clinic-${b.slug}`);
   const faqs = branchFaqs(b);
   const others = branches.filter((o) => o.slug !== b.slug);
 
@@ -74,6 +77,13 @@ export default async function BranchPage({ params }: Props) {
         title={`Dentist in ${place(b)}`}
         description={b.intro}
         breadcrumbs={[{ label: "Branch Locator", href: "/branches" }, { label: b.shortName }]}
+        aside={
+          photo ? (
+            <div className="hidden justify-self-end lg:block">
+              <ArchPhoto photo={photo} />
+            </div>
+          ) : undefined
+        }
         actions={
           <>
             <ButtonLink href={`/appointment?branch=${b.slug}`} size="lg">

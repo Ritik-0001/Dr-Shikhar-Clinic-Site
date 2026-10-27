@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
-import { posts } from "@/data/blog";
+import { getAllPosts } from "@/lib/cms/content";
 import { branches } from "@/data/branches";
 import { treatmentPages } from "@/data/treatments";
 import { absoluteUrl } from "@/lib/contact";
 
 type Entry = MetadataRoute.Sitemap[number];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
   const now = new Date();
   const page = (path: string, priority: number, changeFrequency: Entry["changeFrequency"], lastModified: Date = now): Entry => ({
     url: absoluteUrl(path),

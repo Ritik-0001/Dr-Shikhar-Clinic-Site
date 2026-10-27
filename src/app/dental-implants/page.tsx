@@ -11,7 +11,7 @@ import { CtaBanner } from "@/components/ui/cta-banner";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { getPost } from "@/data/blog";
+import { getPostBySlug } from "@/lib/cms/content";
 import { branches } from "@/data/branches";
 import { plainAnswer } from "@/data/faqs";
 import { getTreatment } from "@/data/treatments";
@@ -48,8 +48,8 @@ const compare = {
   ],
 };
 
-export default function DentalImplantsPage() {
-  const related = (implants.relatedPosts ?? []).map(getPost).filter((p): p is NonNullable<typeof p> => Boolean(p));
+export default async function DentalImplantsPage() {
+  const related = (await Promise.all((implants.relatedPosts ?? []).map(getPostBySlug))).filter((p): p is NonNullable<typeof p> => Boolean(p));
   return (
     <>
       <PageHero

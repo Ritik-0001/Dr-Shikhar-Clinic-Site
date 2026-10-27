@@ -13,7 +13,8 @@ import { CtaBanner } from "@/components/ui/cta-banner";
 import { JsonLd } from "@/components/ui/json-ld";
 import { PageHero } from "@/components/ui/page-hero";
 import { branches } from "@/data/branches";
-import { getPost } from "@/data/blog";
+import { ArchPhoto } from "@/components/ui/arch-photo";
+import { getPhoto, getPostBySlug } from "@/lib/cms/content";
 import { getTreatment, treatmentHref, treatmentPages, treatments } from "@/data/treatments";
 import { absoluteUrl } from "@/lib/contact";
 import { faqJsonLd, pageMetadata } from "@/lib/seo";
@@ -41,7 +42,8 @@ export default async function TreatmentPage({ params }: Props) {
   const t = getTreatment(slug);
   if (!t || t.href) notFound();
 
-  const related = (t.relatedPosts ?? []).map(getPost).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const photo = await getPhoto(`treatment-${t.slug}`);
+  const related = (await Promise.all((t.relatedPosts ?? []).map(getPostBySlug))).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const others = treatments.filter((o) => o.slug !== t.slug);
 
   return (
@@ -52,6 +54,11 @@ export default async function TreatmentPage({ params }: Props) {
         description={t.summary}
         breadcrumbs={[{ label: "Treatments", href: "/treatments" }, { label: t.title }]}
         aside={
+          photo ? (
+            <div className="hidden justify-self-end lg:block">
+              <ArchPhoto photo={photo} />
+            </div>
+          ) : (
           <div className="hidden justify-self-end lg:block" aria-hidden="true">
             <div className="relative aspect-[4/5] w-60">
               <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-t-[999px] rounded-b-[2rem] bg-accent-200/70" />
@@ -69,6 +76,7 @@ export default async function TreatmentPage({ params }: Props) {
               </div>
             </div>
           </div>
+          )
         }
         actions={
           <>

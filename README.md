@@ -40,7 +40,7 @@ project's production URL automatically.
 | `/branches`, `/branches/[slug]` | Branch locator (live open/closed, "nearest to me") + a local-SEO page per branch |
 | `/special-programs` | Camps and community programs + request form |
 
-34 pages in total. Also: `sitemap.xml`, `robots.txt`, web manifest, favicon/app icons, a social-share image (`opengraph-image`) and a custom 404.
+34 public pages in total, plus the admin panel. Also: `sitemap.xml`, `robots.txt`, web manifest, favicon/app icons, a social-share image (`opengraph-image`) and a custom 404.
 
 ## Design system
 
@@ -53,16 +53,25 @@ project's production URL automatically.
 - **Phones:** full-width stacked buttons, icon-beside-text cards, swipeable review row, compact two-column footer, sticky Call / Chat / Book bar.
 - **Writing rule:** no em dashes in site copy. Use commas, colons, full stops or brackets, and write time ranges as "9:00 AM to 1:00 PM".
 
+## Admin panel (`/admin`)
+
+A simple, password-protected panel for the clinic team: **write blog posts** (draft or publish, with a live preview, formatting buttons, cover photo or brand artwork) and **change photos across the site** (home hero, both clinics, doctor, About page and each treatment page). Changes go live within seconds, no redeploy.
+
+Set up on Vercel (one time, about two minutes):
+1. Project, Settings, Environment Variables: add `ADMIN_PASSWORD` (a strong password). Optionally add `ADMIN_SECRET` (any long random text). Until you do, the built-in password `admin123` is used, which is fine for a demo with no storage connected but must be replaced before real use.
+2. Project, Storage: create a **Blob** store (choose **Public**) and connect it to the project. This adds `BLOB_READ_WRITE_TOKEN` automatically.
+3. Redeploy, then open `https://<your-domain>/admin`.
+
+Locally, `npm run dev` works with no setup: the password is `admin123` unless you set `ADMIN_PASSWORD` in `.env.local` and everything is saved in the git-ignored `.data` folder.
+
+How it works: posts and photo choices are saved as small JSON versions plus the image files in Blob (`src/lib/cms/`). Public pages read them (cached, refreshed the moment you save). Posts written in the panel are merged with the built-in articles in `src/data/blog.ts`. Photos are shrunk in the browser before upload. To add a new photo position, add a slot in `src/data/photos.ts` and render it with `getPhoto(id)`. Drafts are stored with the rest of the content on a public but unguessable Blob address; do not put secrets in drafts.
+
 ## Photos
 
 The client has not supplied photography yet, so every photo slot has a designed fallback (brand arch, doctor monogram, clinic cover).
-To use a real photo, copy it into `public/images/` and set its path:
+The easiest way to add photos is the admin panel above. Developers can also commit a file to `public/images/` and set `photo` in `src/data/doctors.ts`.
 
-| Slot | File |
-|---|---|
-| Home hero (portrait, about 4:5) | `src/data/photos.ts` (`hero`) |
-| Each clinic card (about 3:2) | `src/data/photos.ts` (`clinics`) |
-| Doctor portrait | `src/data/doctors.ts` (`photo`) |
+Photo positions (home hero, each clinic, doctor, About page, each treatment page) are listed in `src/data/photos.ts`.
 
 ## Where to change things
 
@@ -77,7 +86,7 @@ Almost everything lives in plain data files, so content updates need no code cha
 | Blog posts | `src/data/blog.ts` |
 | Patient testimonials | `src/data/testimonials.ts` (delete `sample: true` on real ones) |
 | Doctors (bio, **photo**) | `src/data/doctors.ts` (put photos in `public/images/team/`, set `photo`) |
-| Home and clinic photos | `src/data/photos.ts` |
+| Photo positions (what can be uploaded where) | `src/data/photos.ts` (uploads happen in `/admin`) |
 | Why-us, technology, sterilization, journey, values, programs | `src/data/content.ts` |
 | Navigation | `src/data/navigation.ts` |
 | Colours & fonts | `src/app/globals.css` (tokens at the top) and `src/app/layout.tsx` |

@@ -21,7 +21,8 @@ export type Post = {
   date: string;
   readMinutes: number;
   keywords: string[];
-  cover: { icon: DentalIconName; tone: "blue" | "red" | "navy" | "sky" };
+  /** `image` is an optional uploaded photo (posts written in the admin panel); otherwise brand artwork is drawn */
+  cover: { icon: DentalIconName; tone: "blue" | "red" | "navy" | "sky"; image?: string; imageAlt?: string };
   /** treatment page this post supports (internal linking) */
   treatment?: string;
   blocks: Block[];
